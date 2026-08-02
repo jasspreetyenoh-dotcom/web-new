@@ -242,6 +242,15 @@ export default function IntroLoader({
               </motion.g>
             </svg>
           </div>
+          
+          <motion.div 
+            className="intro-mobile-msg"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            OPEN IN DESKTOP FOR BEST EXPERIENCE
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

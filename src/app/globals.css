@@ -2980,3 +2980,4 @@ body.modal-open [class*="Dock"] {
     color: var(--ink-70) !important;
   }
 }
+@media (max-width: 768px) { .intro-mobile-msg { display: block !important; } } .intro-mobile-msg { display: none; font-family: var(--font-headings); font-weight: 700; font-size: 12px; letter-spacing: 1px; color: var(--ink-70); text-transform: uppercase; margin-top: 32px; }
