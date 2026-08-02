@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 const Lanyard = dynamic(() => import("@/components/Lanyard"), { ssr: false });
 import ScrollCrayonLine from "@/components/ScrollCrayonLine";
 import IntroLoader from "@/components/IntroLoader";
-import { CldImage } from 'next-cloudinary';
+
 
 const TEAM_MEMBERS = [
   { name: "Jaspreet Singh", title: "Founder & Director", desc: "Leading the creative vision and business strategy to build brands that matter." },
@@ -222,7 +222,6 @@ export default function AboutPage() {
       <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center" }}>
         {/* Abstract Background Orbs */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-          <div style={{ position: "absolute", top: "-10%", right: "-5%", width: "50vw", height: "50vw", background: "var(--yellow)", opacity: 0.15, filter: "blur(100px)", borderRadius: "50%", zIndex: -1 }} />
           <div style={{ position: "absolute", bottom: "-10%", left: "-10%", width: "40vw", height: "40vw", background: "var(--ink)", opacity: 0.05, filter: "blur(100px)", borderRadius: "50%", zIndex: -1 }} />
         </div>
         
@@ -818,32 +817,6 @@ export default function AboutPage() {
         </motion.p>
       </section>
 
-      {/* 8. OUR CLIENTS (Cloudinary Data) */}
-      <section className="responsive-section" style={{ textAlign: "center", position: "relative" }}>
-        <h2 className="section-title">
-          Cloudinary Client Data
-        </h2>
-        <p style={{ fontSize: "18px", color: "var(--ink-70)", marginBottom: "40px" }}>
-          Here is an example of fetching an image directly from your Cloudinary media library.
-          Make sure your NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is set in .env.local!
-        </p>
-        <div style={{ display: "flex", justifyContent: "center", gap: "24px", flexWrap: "wrap" }}>
-          <div style={{ width: "300px", height: "300px", borderRadius: "20px", overflow: "hidden", border: "2px dashed var(--ink)", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.02)" }}>
-            {/* 
-              Replace 'sample' with the actual public ID of your image in Cloudinary. 
-              'sample' is a default image usually present in new Cloudinary accounts.
-            */}
-            <CldImage
-              width="300"
-              height="300"
-              src="sample"
-              sizes="300px"
-              alt="Client Image from Cloudinary"
-              style={{ objectFit: "cover", width: "100%", height: "100%" }}
-            />
-          </div>
-        </div>
-      </section>
 
       {/* 9. LET'S BUILD SOMETHING */}
       {/* 9. LET'S BUILD SOMETHING */}
@@ -859,11 +832,7 @@ export default function AboutPage() {
               View Our Portfolio
             </Link>
             <div style={{ position: "relative", display: "inline-block" }}>
-              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 10, ease: "linear" }} style={{ position: "absolute", top: "-50%", left: "-20%", width: "140%", height: "200%", zIndex: -1, pointerEvents: "none" }}>
-                <svg viewBox="0 0 100 100" style={{ width: "100%", height: "100%", overflow: "visible" }}>
-                  <path d="M 50,5 C 20,5 5,20 5,50 C 5,80 20,95 50,95 C 80,95 95,80 95,50 C 95,20 80,5 50,5" fill="none" stroke="rgba(0,0,0,0.1)" strokeWidth="2" strokeDasharray="5,5" />
-                </svg>
-              </motion.div>
+
               <Link href="/contact" className="btn">
                 Let's Talk
                 <svg viewBox="0 0 40 20" style={{ width: 32, height: 16, marginLeft: 4 }}>
