@@ -16,9 +16,9 @@ export default function ServicesPage() {
     <>
       <IntroLoader
         onComplete={() => setIsIntroFinished(true)}
-        pageName="CAPABILITIES"
-        quote="Where high aesthetics meet commercial strategy."
-        iconType="craft"
+        pageName="YENOH"
+        quote="We build brands that grow."
+        iconType="logo"
         accentColor="var(--yellow)"
       />
       <div

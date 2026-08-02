@@ -7,7 +7,7 @@ import { ALL_PROJECTS } from "@/data/projects";
 import TabbedGallery from "@/components/TabbedGallery";
 import PresentationMode from "@/components/PresentationMode";
 import BlurText from "@/components/BlurText";
-import { VscClose, VscArrowLeft, VscArrowRight } from "react-icons/vsc";
+import { VscClose, VscArrowLeft, VscArrowRight, VscHeart, VscComment, VscRocket, VscFlame, VscEye, VscBookmark, VscTools } from "react-icons/vsc";
 import IntroLoader from "@/components/IntroLoader";
 
 const ACCURATE_COLORS = {
@@ -238,299 +238,160 @@ export default function PortfolioSPA({ params: paramsPromise }) {
             </section>
 
             {/* The Shelf */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "60px", paddingBottom: "140px" }}>
+            {/* The Shelf Grid */}
+            <div className="portfolio-grid" style={{ paddingBottom: "140px" }}>
+              <style>{`
+                .portfolio-grid {
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                  gap: 24px;
+                  max-width: 1600px;
+                  margin: 0 auto;
+                  padding: 0 40px;
+                }
+                @media (max-width: 1400px) {
+                  .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
+                }
+                @media (max-width: 1024px) {
+                  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+                }
+                @media (max-width: 768px) {
+                  .portfolio-grid { grid-template-columns: 1fr; padding: 0 20px; }
+                }
+
+                .shelf-cover {
+                  display: flex;
+                  flex-direction: column;
+                  min-height: 440px;
+                  border-radius: 24px;
+                  border: 2.5px solid var(--ink);
+                  box-shadow: 4px 6px 0 var(--ink);
+                  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                  cursor: pointer;
+                  overflow: hidden;
+                  position: relative;
+                }
+                .shelf-cover:hover { transform: translateY(-6px); box-shadow: 8px 10px 0 var(--ink) !important; }
+                .shelf-overlay {
+                  padding: 32px 24px;
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: space-between;
+                  background: transparent;
+                }
+                .shelf-overlay h2 { font-size: clamp(24px, 2vw, 32px); margin-bottom: 12px; }
+                .shelf-overlay p { font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+                .shelf-deliverable-chip {
+                  font-size: 11px;
+                  padding: 6px 12px;
+                  border-radius: 100px;
+                }
+                .shelf-btn-action {
+                  background: #FFFFFF !important;
+                  color: var(--ink) !important;
+                  border: 2px solid var(--ink) !important;
+                  box-shadow: 3px 3.5px 0 var(--ink) !important;
+                  font-weight: 900 !important;
+                  width: 100%;
+                  justify-content: center;
+                  padding: 12px 24px;
+                  font-size: 13.5px;
+                  text-transform: uppercase;
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 10px;
+                  border-radius: 100px;
+                }
+                .shelf-btn-action svg { stroke: var(--ink) !important; color: var(--ink) !important; transition: transform 0.3s ease; }
+                .shelf-cover:hover .shelf-btn-action { background: var(--yellow) !important; transform: scale(1.02); }
+                .shelf-cover:hover .shelf-btn-action svg { transform: translateX(4px); }
+                .shelf-mobile-header { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 16px; }
+                .shelf-mobile-industry {
+                  font-family: var(--font-headings);
+                  font-weight: 700;
+                  font-size: 11px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.12em;
+                }
+              `}</style>
+
               {ALL_PROJECTS.map((project, idx) => (
-                <div key={project.id} style={{ padding: "0 20px" }}>
+                <div key={project.id}>
                   <motion.div
                     layoutId={`project-container-${project.id}`}
                     onClick={() => openProject(project)}
                     className="shelf-cover"
                     style={{
-                      position: "relative",
-                      maxWidth: "1340px",
-                      margin: "0 auto",
-                      borderRadius: "32px",
-                      overflow: "hidden",
-                      cursor: "pointer",
-                      background: "var(--card-bg)",
-                      border: "2.5px solid var(--ink)",
-                      boxShadow: "6px 8px 0 var(--ink)",
-                      transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-                      "--proj-accurate-color": ACCURATE_COLORS[project.id] || project.color || "#F6C000",
+                      background: ACCURATE_COLORS[project.id] || project.color || "#F6C000",
                       "--proj-text-color": project.id === "punjab-immigration" ? "#1D1D1D" : "#FFFFFF",
                       "--proj-subtext-color": project.id === "punjab-immigration" ? "rgba(29, 29, 29, 0.82)" : "rgba(255, 255, 255, 0.88)",
-                      "--proj-chip-bg": project.id === "punjab-immigration" ? "#FFFFFF" : "rgba(255, 255, 255, 0.16)",
+                      "--proj-chip-bg": project.id === "punjab-immigration" ? "rgba(0, 0, 0, 0.06)" : "rgba(255, 255, 255, 0.16)",
                       "--proj-chip-color": project.id === "punjab-immigration" ? "#1D1D1D" : "#FFFFFF",
-                      "--proj-chip-border": project.id === "punjab-immigration" ? "#1D1D1D" : "rgba(255, 255, 255, 0.35)"
+                      "--proj-chip-border": project.id === "punjab-immigration" ? "rgba(0, 0, 0, 0.25)" : "rgba(255, 255, 255, 0.35)"
                     }}
                   >
-                    <style>{`
-                      .shelf-cover:hover { transform: translateY(-8px); box-shadow: 12px 16px 0 var(--ink) !important; }
-                      .shelf-cover:hover .cover-img { transform: scale(1.05) rotate(0.5deg); }
-                      .shelf-cover:hover .shelf-btn-action { background: var(--yellow) !important; color: var(--ink) !important; transform: scale(1.04); }
-                      .shelf-cover:hover .shelf-btn-action svg { transform: translateX(6px); }
-                      @media (max-width: 768px) {
-                        .shelf-cover {
-                          background: var(--proj-accurate-color, #F6C000) !important;
-                          border-radius: 24px !important;
-                          border: 2.5px solid var(--ink) !important;
-                          box-shadow: 4px 6px 0 var(--ink) !important;
-                        }
-                        .shelf-tile-split { grid-template-columns: 1fr !important; min-height: auto !important; }
-                        .shelf-tile-img-stage { display: none !important; }
-                        .shelf-overlay {
-                          background: transparent !important;
-                          padding: 32px 24px !important;
-                        }
-                        .shelf-overlay h2 { color: var(--proj-text-color, #FFFFFF) !important; }
-                        .shelf-overlay p { color: var(--proj-subtext-color, rgba(255, 255, 255, 0.88)) !important; }
-                        .shelf-category-text {
-                          color: var(--proj-subtext-color, rgba(255, 255, 255, 0.88)) !important;
-                        }
-                        .shelf-deliverable-chip {
-                          background: var(--proj-chip-bg, rgba(255, 255, 255, 0.16)) !important;
-                          color: var(--proj-chip-color, #FFFFFF) !important;
-                          border: 1.5px solid var(--proj-chip-border, rgba(255, 255, 255, 0.35)) !important;
-                          box-shadow: 1.5px 2px 0 var(--ink) !important;
-                        }
-                        /* WHITE View Case Study Button on Mobile */
-                        .shelf-btn-action {
-                          background: #FFFFFF !important;
-                          color: var(--ink) !important;
-                          border: 2px solid var(--ink) !important;
-                          box-shadow: 3px 3.5px 0 var(--ink) !important;
-                          font-weight: 900 !important;
-                        }
-                        .shelf-btn-action svg {
-                          stroke: var(--ink) !important;
-                          color: var(--ink) !important;
-                        }
-                        .shelf-mobile-header {
-                          display: flex !important;
-                          align-items: center !important;
-                          justify-content: flex-end !important;
-                          margin-bottom: 16px !important;
-                        }
-                        .shelf-mobile-industry {
-                          color: var(--proj-subtext-color, rgba(255, 255, 255, 0.85)) !important;
-                          font-family: var(--font-headings) !important;
-                          font-weight: 700 !important;
-                          font-size: 12px !important;
-                          text-transform: uppercase !important;
-                          letter-spacing: 0.12em !important;
-                        }
-                      }
-                      @media (min-width: 769px) {
-                        .shelf-mobile-header { display: none !important; }
-                      }
-                    `}</style>
-
-                    {/* Content Split: Left Info + Right Stage */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "520px", "--proj-color": project.color || "#111111" }} className="shelf-tile-split">
-                      
-                      {/* Left Info Area */}
-                      <div className="shelf-overlay" style={{ padding: "52px 48px", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#FFFFFF", zIndex: 10, position: "relative" }}>
-                        
-                        <div>
-                          {/* Mobile-Only Subtle Industry Header */}
-                          <div className="shelf-mobile-header">
-                            <span className="shelf-mobile-industry">{project.industry}</span>
-                          </div>
-
-                          {/* Client Logo replacing Number + Category */}
-                          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
-                            {project.logo ? (
-                              <div className="shelf-client-logo-badge" style={{
-                                width: "64px",
-                                height: "64px",
-                                aspectRatio: "1/1",
-                                borderRadius: "50%",
-                                background: "#FFFFFF",
-                                border: "3px solid var(--ink)",
-                                boxShadow: "3px 3.5px 0 var(--ink)",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                overflow: "hidden",
-                                flexShrink: 0
-                              }}>
-                                <img src={project.logo} alt={project.name} style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} />
-                              </div>
-                            ) : (
-                              <div className="shelf-client-logo-text" style={{
-                                width: "64px",
-                                height: "64px",
-                                borderRadius: "50%",
-                                background: "#FFFFFF",
-                                border: "3px solid var(--ink)",
-                                boxShadow: "3px 3.5px 0 var(--ink)",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontFamily: "var(--font-headings)",
-                                fontWeight: 900,
-                                fontSize: "20px",
-                                color: "var(--ink)",
-                                textTransform: "uppercase",
-                                flexShrink: 0
-                              }}>
-                                {project.name.charAt(0)}
-                              </div>
-                            )}
-
-                            <span className="shelf-category-text" style={{ fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.15em", color: "var(--ink-45)" }}>
-                              {project.category || "Case Study"}
-                            </span>
-                          </div>
-
-                          <motion.h2 layoutId={`project-title-${project.id}`} style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(32px, 4.5vw, 56px)", textTransform: "uppercase", color: "var(--ink)", lineHeight: 0.95, marginBottom: "20px", maxWidth: "600px" }}>
-                            {project.name}
-                          </motion.h2>
-
-                          <p style={{ fontSize: "16px", color: "var(--ink-70)", maxWidth: "520px", lineHeight: 1.6, marginBottom: "32px" }}>
-                            {project.summary}
-                          </p>
+                    <div className="shelf-overlay">
+                      <div>
+                        {/* Industry Header */}
+                        <div className="shelf-mobile-header">
+                          <span className="shelf-mobile-industry" style={{ color: "var(--proj-subtext-color)" }}>{project.industry}</span>
                         </div>
 
-                        <div>
-                          {/* Deliverables Tags */}
-                          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "28px" }}>
-                            {project.services.slice(0, 4).map(s => (
-                              <div key={s} className="shelf-deliverable-chip" style={{ padding: "6px 16px", borderRadius: "100px", background: "rgba(0,0,0,0.04)", border: "1.5px solid var(--line-color)", color: "var(--ink)", fontSize: "12px", fontFamily: "var(--font-headings)", fontWeight: 700, textTransform: "uppercase" }}>
-                                {s}
-                              </div>
-                            ))}
-                          </div>
-
-                          <button className="shelf-btn-action btn-sm" style={{
-                            padding: "11px 24px",
-                            fontSize: "13.5px",
-                            textTransform: "uppercase",
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "10px"
-                          }}>
-                            View Case Study <VscArrowRight size={18} style={{ transition: "transform 0.3s ease" }} />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Right Stage: What We Did Highlights Card (No Video Reels on Outer Tile) */}
-                      <motion.div
-                        layoutId={`project-image-container-${project.id}`}
-                        className="shelf-tile-img-stage"
-                        style={{
-                          position: "relative",
-                          width: "100%",
-                          height: "100%",
-                          background: project.color || "#111111",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "space-between",
-                          padding: "36px 32px",
-                          overflow: "hidden",
-                          borderLeft: "2.5px solid var(--ink)"
-                        }}
-                      >
-                        {/* Top Badge: What We Did */}
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", marginBottom: "16px", zIndex: 10 }}>
-                          <div style={{
-                            background: "var(--yellow)",
-                            color: "var(--ink)",
-                            border: "1.5px solid var(--ink)",
-                            boxShadow: "2px 2px 0 var(--ink)",
-                            borderRadius: "100px",
-                            padding: "6px 14px",
-                            fontFamily: "var(--font-headings)",
-                            fontWeight: 900,
-                            fontSize: "11px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.08em"
-                          }}>
-                            What We Did
-                          </div>
-
-                          <div style={{
-                            background: "rgba(255, 255, 255, 0.15)",
-                            backdropFilter: "blur(4px)",
-                            color: "#FFFFFF",
-                            borderRadius: "8px",
-                            padding: "5px 12px",
-                            fontFamily: "var(--font-headings)",
-                            fontWeight: 700,
-                            fontSize: "11px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.08em"
-                          }}>
-                            {project.industry}
-                          </div>
-                        </div>
-
-                        {/* Main Text Content: Deliverables & Key Impact Highlights in slight text */}
-                        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", gap: "14px", zIndex: 10 }}>
-                          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                            {(project.deliverables || project.services || []).slice(0, 4).map((item, dIdx) => (
-                              <div 
-                                key={dIdx} 
-                                style={{ 
-                                  display: "flex", 
-                                  alignItems: "flex-start", 
-                                  gap: "10px", 
-                                  fontSize: "14px", 
-                                  color: "rgba(255, 255, 255, 0.95)",
-                                  fontFamily: "var(--font-body)",
-                                  fontWeight: 400,
-                                  lineHeight: 1.4
-                                }}
-                              >
-                                <span style={{ color: "var(--yellow)", fontWeight: 900, fontSize: "13px", marginTop: "1px" }}>✓</span>
-                                <span>{item}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Key Results / Metrics Badges in slight text */}
-                          {project.results && project.results.length > 0 && (
-                            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "10px" }}>
-                              {project.results.slice(0, 2).map((res, rIdx) => (
-                                <div key={rIdx} style={{
-                                  padding: "6px 12px",
-                                  borderRadius: "8px",
-                                  background: "rgba(0, 0, 0, 0.35)",
-                                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                                  color: "#FFFFFF",
-                                  fontSize: "12px",
-                                  fontFamily: "var(--font-headings)",
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "6px"
-                                }}>
-                                  <strong style={{ color: "var(--yellow)", fontWeight: 900 }}>{res.metric}</strong>
-                                  <span style={{ opacity: 0.85, fontSize: "11px" }}>{res.label}</span>
-                                </div>
-                              ))}
+                        {/* Client Logo */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+                          {project.logo ? (
+                            <div style={{
+                              width: "56px", height: "56px", aspectRatio: "1/1", borderRadius: "50%",
+                              background: "#FFFFFF", border: "2.5px solid var(--ink)", boxShadow: "2.5px 3px 0 var(--ink)",
+                              display: "inline-flex", alignItems: "center", justifyContent: "center", overflow: "hidden", flexShrink: 0
+                            }}>
+                              <img src={project.logo} alt={project.name} style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }} />
+                            </div>
+                          ) : (
+                            <div style={{
+                              width: "56px", height: "56px", borderRadius: "50%",
+                              background: "#FFFFFF", border: "2.5px solid var(--ink)", boxShadow: "2.5px 3px 0 var(--ink)",
+                              display: "inline-flex", alignItems: "center", justifyContent: "center",
+                              fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "18px", color: "var(--ink)",
+                              textTransform: "uppercase", flexShrink: 0
+                            }}>
+                              {project.name.charAt(0)}
                             </div>
                           )}
+
+                          <span style={{ fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.15em", color: "var(--proj-subtext-color)" }}>
+                            {project.category || "Case Study"}
+                          </span>
                         </div>
 
-                        {/* Bottom Subtle Hint */}
-                        <div style={{
-                          fontSize: "11px",
-                          color: "rgba(255, 255, 255, 0.65)",
-                          fontFamily: "var(--font-headings)",
-                          fontWeight: 700,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.08em",
-                          marginTop: "16px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          zIndex: 10
-                        }}>
-                          <span>Click tile to view case study & reels</span> →
-                        </div>
-                      </motion.div>
+                        <motion.h2 layoutId={`project-title-${project.id}`} style={{ fontFamily: "var(--font-headings)", fontWeight: 900, textTransform: "uppercase", color: "var(--proj-text-color)", lineHeight: 0.95, maxWidth: "600px" }}>
+                          {project.name}
+                        </motion.h2>
 
+                        <p style={{ color: "var(--proj-subtext-color)", maxWidth: "520px" }}>
+                          {project.summary}
+                        </p>
+                      </div>
+
+                      <div>
+                        {/* Deliverables Tags */}
+                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "28px" }}>
+                          {project.services.slice(0, 4).map(s => (
+                            <div key={s} className="shelf-deliverable-chip" style={{ 
+                              background: "var(--proj-chip-bg)", color: "var(--proj-chip-color)", 
+                              border: "1.5px solid var(--proj-chip-border)", boxShadow: "1.5px 2px 0 var(--ink)", 
+                              fontFamily: "var(--font-headings)", fontWeight: 700, textTransform: "uppercase" 
+                            }}>
+                              {s}
+                            </div>
+                          ))}
+                        </div>
+
+                        <button className="shelf-btn-action">
+                          View Case Study <VscArrowRight size={18} />
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 </div>
@@ -831,15 +692,15 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                               textShadow: "0 2px 8px rgba(0,0,0,0.6)"
                             }}>
                               <div style={{ textAlign: "center" }}>
-                                <span style={{ fontSize: "20px" }}>❤️</span>
+                                <div style={{ fontSize: "20px" }}><VscHeart /></div>
                                 <div style={{ fontSize: "10px", fontWeight: 900, fontFamily: "var(--font-headings)" }}>2.6K</div>
                               </div>
                               <div style={{ textAlign: "center" }}>
-                                <span style={{ fontSize: "20px" }}>💬</span>
+                                <div style={{ fontSize: "20px" }}><VscComment /></div>
                                 <div style={{ fontSize: "10px", fontWeight: 900, fontFamily: "var(--font-headings)" }}>184</div>
                               </div>
                               <div style={{ textAlign: "center" }}>
-                                <span style={{ fontSize: "20px" }}>🚀</span>
+                                <div style={{ fontSize: "20px" }}><VscRocket /></div>
                                 <div style={{ fontSize: "10px", fontWeight: 900, fontFamily: "var(--font-headings)" }}>4.5K</div>
                               </div>
                             </div>
@@ -892,7 +753,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                               border: "2px solid var(--ink)",
                               boxShadow: "3px 4px 0 var(--ink)"
                             }}>
-                              🔥 Viral Content Focus
+                              <VscFlame size={16} /> Viral Content Focus
                             </span>
 
                             {/* Hand-drawn curved arrow pointing left towards video player */}
@@ -918,7 +779,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                           {/* Reel Specific Metrics Grid (Forced 2-Column Grid) */}
                           <div className="cs-viral-metrics-container" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "14px" }}>
                             {activeProject.viralSpotlight.metrics.map((m, idx) => {
-                              const icon = m.label === "Views" ? "👁️" : (m.label === "Shares" ? "🚀" : (m.label === "Likes" ? "❤️" : "🔖"));
+                              const icon = m.label === "Views" ? <VscEye /> : (m.label === "Shares" ? <VscRocket /> : (m.label === "Likes" ? <VscHeart /> : <VscBookmark />));
                               return (
                                 <motion.div 
                                   key={idx} 
@@ -981,8 +842,8 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                       <div className="cs-admin-glow" style={{ position: "absolute", top: "-80px", right: "-80px", width: "280px", height: "280px", borderRadius: "50%", background: "rgba(59,130,246,0.12)", filter: "blur(40px)", pointerEvents: "none" }} />
 
                       <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
-                        <div className="cs-admin-badge" style={{ padding: "6px 16px", background: "#3b82f6", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff" }}>
-                          🛠️ Platform Feature
+                        <div className="cs-admin-badge" style={{ padding: "6px 16px", background: "#3b82f6", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", color: "#fff", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                          <VscTools size={14} /> Platform Feature
                         </div>
                       </div>
 

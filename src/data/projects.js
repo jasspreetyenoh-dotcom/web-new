@@ -1,4 +1,5 @@
-import { getCloudinaryUrl } from "@/utils/cloudinary";
+import { VscEdit, VscMortarBoard, VscStarFull, VscBell } from "react-icons/vsc";
+import { getCloudinaryUrl, getCloudinaryVideoUrl } from "../utils/cloudinary";
 
 const RAW_PROJECTS = [
   {
@@ -130,7 +131,7 @@ const RAW_PROJECTS = [
     gallery: [
       { type: "image", category: "Website", src: "/projects/dolma-aunti-momos/PCVIEW-DOLMA.png", caption: "Official Web Platform Desktop Interface" },
       { type: "image", category: "Website", src: "/projects/dolma-aunti-momos/MOBILE VIEW DOLMA.png", caption: "Official Web Platform Mobile Interface" },
-      { type: "video", category: "Reels", src: "/projects/dolma-aunti-momos/DAREEL1.mp4", caption: "👑 VIRAL REEL 01 — 224K+ VIEWS • 2.6K LIKES • 2K SHARES" },
+      { type: "video", category: "Reels", src: "/projects/dolma-aunti-momos/DAREEL1.mp4", caption: "VIRAL REEL 01 — 224K+ VIEWS • 2.6K LIKES • 2K SHARES" },
       { type: "video", category: "Reels", src: "/projects/dolma-aunti-momos/DAREEL2.mp4", caption: "Reel Campaign 02" },
       { type: "video", category: "Reels", src: "/projects/dolma-aunti-momos/DAREEL3.mp4", caption: "Reel Campaign 03" },
       { type: "video", category: "Reels", src: "/projects/dolma-aunti-momos/DAREEL4.mp4", caption: "Reel Campaign 04" },
@@ -240,10 +241,10 @@ const RAW_PROJECTS = [
     adminPortalSpotlight: {
       title: "Full-Control Admin Portal",
       features: [
-        { icon: "📝", label: "Blog Management", desc: "Publish & edit SEO blogs for Google ranking" },
-        { icon: "🎓", label: "Course Control", desc: "Add, update, or remove courses in real-time" },
-        { icon: "⭐", label: "Reviews & Ratings", desc: "Approve and showcase student testimonials" },
-        { icon: "🔔", label: "Exam Alerts", desc: "Push live exam notifications to all students" }
+        { icon: <VscEdit />, label: "Blog Management", desc: "Publish & edit SEO blogs for Google ranking" },
+        { icon: <VscMortarBoard />, label: "Course Control", desc: "Add, update, or remove courses in real-time" },
+        { icon: <VscStarFull />, label: "Reviews & Ratings", desc: "Approve and showcase student testimonials" },
+        { icon: <VscBell />, label: "Exam Alerts", desc: "Push live exam notifications to all students" }
       ]
     },
     gallery: [
@@ -638,9 +639,9 @@ const RAW_PROJECTS = [
     industry: "Political & Legal",
     category: "Political",
     year: "2024",
-    color: "#ea580c",
+    color: "#0F172A",
     image: "/projects/advocate-amarjeet-singh/p2.jpg",
-    summary: "Digital campaign management and personal branding for a prominent political election.",
+    summary: "",
     challenge: "Advocate Amarjeet Singh Pannu required a modern, data-driven digital campaign to mobilize local voters, build personal brand authority, and manage public messaging during a high-stakes campaign.",
     solution: "We deployed targeted Meta ad campaigns, produced high-impact video reels, managed community PR, and crafted authentic content that established overwhelming voter trust.",
     testimonial: {
@@ -665,7 +666,7 @@ const RAW_PROJECTS = [
     results: [
       { metric: "2M+", label: "Voter Reach" },
       { metric: "100%", label: "Community Engagement" },
-      { metric: "Victory", label: "Election Campaign Landmark" }
+      { metric: "#2 Rank", label: "Close Finish Margin" }
     ],
     gallery: [
       // 6 Video Reels (Clean without text overlay)
@@ -784,8 +785,6 @@ const RAW_PROJECTS = [
     gallery: [],
     nextProjectSlug: "punjab-immigration"
   }
-];
-
 export const ALL_PROJECTS = RAW_PROJECTS.map(p => ({
   ...p,
   image: getCloudinaryUrl(p.image),

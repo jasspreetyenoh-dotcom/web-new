@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { VscClose, VscChevronLeft, VscChevronRight } from "react-icons/vsc";
+import { VscClose, VscChevronLeft, VscChevronRight, VscSearch } from "react-icons/vsc";
 
 // Clean Custom YouTube Play Card (No noisy YouTube overlays before play, matching other reels)
 const YouTubePlayCard = ({ item, idx }) => {
@@ -150,7 +150,7 @@ const PCWebTile = ({ item, openLightbox, index }) => {
       {item.caption && (
         <div style={{ padding: "10px 16px", background: "var(--ink)", color: "#FFF", fontSize: "12px", fontFamily: "var(--font-headings)", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span>{item.caption}</span>
-          <span style={{ color: "var(--yellow)" }}>🔍 Click to Expand</span>
+          <span style={{ color: "var(--yellow)", display: "inline-flex", alignItems: "center", gap: "6px" }}><VscSearch /> Click to Expand</span>
         </div>
       )}
     </motion.div>
@@ -219,7 +219,7 @@ const MobileWebTile = ({ item, openLightbox, index }) => {
       {item.caption && (
         <div style={{ padding: "8px 12px", background: "var(--ink)", color: "#FFF", fontSize: "11px", fontFamily: "var(--font-headings)", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.caption}</span>
-          <span style={{ color: "var(--yellow)" }}>🔍</span>
+          <span style={{ color: "var(--yellow)" }}><VscSearch /></span>
         </div>
       )}
     </motion.div>
@@ -405,7 +405,7 @@ export default function TabbedGallery({ gallery = [] }) {
                   <motion.div
                     key={idx + item.src}
                     onClick={() => openLightbox(originalIndex)}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className={isExplicitMobile ? "mobile-web-tile" : "pc-web-tile"}
                     style={{
@@ -413,11 +413,11 @@ export default function TabbedGallery({ gallery = [] }) {
                       width: "100%",
                       minWidth: 0,
                       aspectRatio: ratio,
-                      borderRadius: "14px",
+                      borderRadius: "16px",
                       overflow: "hidden",
                       background: "#FFFFFF",
-                      border: "2px solid var(--ink)",
-                      boxShadow: "4px 5px 0 var(--ink)",
+                      border: "2.5px solid var(--ink)",
+                      boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
                       cursor: "pointer"
                     }}
                   >
@@ -445,7 +445,7 @@ export default function TabbedGallery({ gallery = [] }) {
                       display: "flex", alignItems: "center", gap: "6px",
                       boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
                     }}>
-                      🔍 {isExplicitMobile ? "Mobile View" : "Desktop View"}
+                      <VscSearch /> {isExplicitMobile ? "Mobile View" : "Desktop View"}
                     </div>
                   </motion.div>
                 );
@@ -498,28 +498,30 @@ export default function TabbedGallery({ gallery = [] }) {
                   <button 
                     onClick={() => scrollContainer(reelsRef, "left")} 
                     style={{
-                      width: "32px", height: "32px", borderRadius: "50%",
-                      background: "var(--paper)", border: "2px solid var(--ink)",
-                      boxShadow: "2px 2px 0 var(--ink)", cursor: "pointer",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "14px", color: "var(--ink)"
+                      width: "36px", height: "36px", borderRadius: "50%",
+                      background: "rgba(15, 23, 42, 0.05)", border: "none",
+                      cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "var(--ink)", transition: "background 0.2s"
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.1)"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll left"
                   >
-                    ‹
+                    <VscChevronLeft size={22} />
                   </button>
                   <button 
                     onClick={() => scrollContainer(reelsRef, "right")} 
                     style={{
-                      width: "32px", height: "32px", borderRadius: "50%",
-                      background: "var(--yellow)", border: "2px solid var(--ink)",
-                      boxShadow: "2px 2px 0 var(--ink)", cursor: "pointer",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "14px", color: "var(--ink)"
+                      width: "36px", height: "36px", borderRadius: "50%",
+                      background: "rgba(15, 23, 42, 0.05)", border: "none",
+                      cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "var(--ink)", transition: "background 0.2s"
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.1)"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll right"
                   >
-                    ›
+                    <VscChevronRight size={22} />
                   </button>
                 </div>
 
@@ -553,7 +555,7 @@ export default function TabbedGallery({ gallery = [] }) {
                     <motion.div
                       key={"h-" + idx + item.src}
                       onClick={() => openLightbox(filteredGallery.indexOf(item))}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
                       className="reel-card"
                       style={{
@@ -561,11 +563,11 @@ export default function TabbedGallery({ gallery = [] }) {
                         width: "100%",
                         minWidth: 0,
                         aspectRatio: item.aspectRatio || "16/9",
-                        borderRadius: "18px",
+                        borderRadius: "16px",
                         overflow: "hidden",
                         background: "#000000",
                         border: "2.5px solid var(--ink)",
-                        boxShadow: "4px 5px 0 var(--ink)",
+                        boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
                         cursor: "pointer"
                       }}
                     >
@@ -619,7 +621,7 @@ export default function TabbedGallery({ gallery = [] }) {
                   <motion.div
                     key={"v-" + idx + item.src}
                     onClick={() => openLightbox(filteredGallery.indexOf(item))}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className="reel-card"
                     style={{
@@ -627,11 +629,11 @@ export default function TabbedGallery({ gallery = [] }) {
                       width: "100%",
                       minWidth: 0,
                       aspectRatio: item.aspectRatio || "9/16",
-                      borderRadius: "18px",
+                      borderRadius: "16px",
                       overflow: "hidden",
                       background: "#000000",
                       border: "2.5px solid var(--ink)",
-                      boxShadow: "4px 5px 0 var(--ink)",
+                      boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
                       cursor: "pointer"
                     }}
                   >
@@ -742,7 +744,7 @@ export default function TabbedGallery({ gallery = [] }) {
                 <motion.div
                   key={"ig-" + idx + item.src}
                   onClick={() => openLightbox(filteredGallery.indexOf(item))}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   style={{
                     position: "relative",
@@ -750,7 +752,8 @@ export default function TabbedGallery({ gallery = [] }) {
                     minWidth: 0,
                     aspectRatio: "9/16",
                     borderRadius: "16px",
-                    border: "1.5px solid rgba(30, 30, 30, 0.15)",
+                    border: "2.5px solid var(--ink)",
+                    boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
                     overflow: "hidden",
                     cursor: "pointer",
                     background: "#000000",
@@ -789,7 +792,7 @@ export default function TabbedGallery({ gallery = [] }) {
                     gap: "6px",
                     boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
                   }}>
-                    <span>🔍 Click to view</span>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><VscSearch /> Click to view</span>
                   </div>
                 </motion.div>
               ))}
@@ -817,28 +820,30 @@ export default function TabbedGallery({ gallery = [] }) {
                   <button 
                     onClick={() => scrollContainer(graphicsRef, "left")} 
                     style={{
-                      width: "32px", height: "32px", borderRadius: "50%",
-                      background: "var(--paper)", border: "2px solid var(--ink)",
-                      boxShadow: "2px 2px 0 var(--ink)", cursor: "pointer",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "14px", color: "var(--ink)"
+                      width: "36px", height: "36px", borderRadius: "50%",
+                      background: "rgba(15, 23, 42, 0.05)", border: "none",
+                      cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "var(--ink)", transition: "background 0.2s"
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.1)"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll left"
                   >
-                    ‹
+                    <VscChevronLeft size={22} />
                   </button>
                   <button 
                     onClick={() => scrollContainer(graphicsRef, "right")} 
                     style={{
-                      width: "32px", height: "32px", borderRadius: "50%",
-                      background: "var(--yellow)", border: "2px solid var(--ink)",
-                      boxShadow: "2px 2px 0 var(--ink)", cursor: "pointer",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontWeight: 900, fontSize: "14px", color: "var(--ink)"
+                      width: "36px", height: "36px", borderRadius: "50%",
+                      background: "rgba(15, 23, 42, 0.05)", border: "none",
+                      cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                      color: "var(--ink)", transition: "background 0.2s"
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.1)"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll right"
                   >
-                    ›
+                    <VscChevronRight size={22} />
                   </button>
                 </div>
 
@@ -867,16 +872,16 @@ export default function TabbedGallery({ gallery = [] }) {
                 <motion.div
                   key={idx + item.src}
                   onClick={() => openLightbox(filteredGallery.indexOf(item))}
-                  whileHover={{ y: -6, boxShadow: "8px 12px 0 var(--ink)" }}
+                  whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   style={{
                     position: "relative",
                     aspectRatio: "4/5",
-                    borderRadius: "20px",
+                    borderRadius: "16px",
                     overflow: "hidden",
                     background: "#FFFFFF",
                     border: "2.5px solid var(--ink)",
-                    boxShadow: "4px 6px 0 var(--ink)",
+                    boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
                     cursor: "pointer"
                   }}
                 >
@@ -994,62 +999,6 @@ export default function TabbedGallery({ gallery = [] }) {
               </motion.div>
             </motion.button>
 
-            {/* Left Nav Arrow Button */}
-            <motion.button
-              onClick={prevMedia}
-              whileHover={{ scale: 1.2, x: -6 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              style={{
-                position: "absolute",
-                left: "24px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                width: "56px",
-                height: "56px",
-                borderRadius: "50%",
-                background: "var(--yellow)",
-                color: "var(--ink)",
-                border: "2.5px solid var(--ink)",
-                boxShadow: "3px 4px 0 var(--ink)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 100000,
-              }}
-            >
-              <VscChevronLeft size={32} />
-            </motion.button>
-
-            {/* Right Nav Arrow Button */}
-            <motion.button
-              onClick={nextMedia}
-              whileHover={{ scale: 1.2, x: 6 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              style={{
-                position: "absolute",
-                right: "24px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                width: "56px",
-                height: "56px",
-                borderRadius: "50%",
-                background: "var(--yellow)",
-                color: "var(--ink)",
-                border: "2.5px solid var(--ink)",
-                boxShadow: "3px 4px 0 var(--ink)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                zIndex: 100000,
-              }}
-            >
-              <VscChevronRight size={32} />
-            </motion.button>
-
             {/* Main Full Content Display (Actual Uncropped Aspect Ratio) */}
             <motion.div
               key={lightboxIndex}
@@ -1069,7 +1018,8 @@ export default function TabbedGallery({ gallery = [] }) {
                 overflow: "hidden",
                 border: "none",
                 boxShadow: "0 24px 60px rgba(0,0,0,0.8)",
-                background: "transparent"
+                background: "transparent",
+                marginTop: "6vh"
               }}
             >
               {activeMedia.type === "video" ? (
@@ -1102,6 +1052,62 @@ export default function TabbedGallery({ gallery = [] }) {
                   }}
                 />
               )}
+
+              {/* Left Nav Arrow Button */}
+              <motion.button
+                onClick={(e) => { e.stopPropagation(); prevMedia(); }}
+                whileHover={{ scale: 1.15, x: -4 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                style={{
+                  position: "absolute",
+                  left: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "52px",
+                  height: "52px",
+                  borderRadius: "50%",
+                  background: "var(--yellow)",
+                  color: "var(--ink)",
+                  border: "2.5px solid var(--ink)",
+                  boxShadow: "3px 4px 0 var(--ink)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 100000,
+                }}
+              >
+                <VscChevronLeft size={28} />
+              </motion.button>
+
+              {/* Right Nav Arrow Button */}
+              <motion.button
+                onClick={(e) => { e.stopPropagation(); nextMedia(); }}
+                whileHover={{ scale: 1.15, x: 4 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                style={{
+                  position: "absolute",
+                  right: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  width: "52px",
+                  height: "52px",
+                  borderRadius: "50%",
+                  background: "var(--yellow)",
+                  color: "var(--ink)",
+                  border: "2.5px solid var(--ink)",
+                  boxShadow: "3px 4px 0 var(--ink)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 100000,
+                }}
+              >
+                <VscChevronRight size={28} />
+              </motion.button>
             </motion.div>
 
             {/* Bottom Caption & Counter */}

@@ -64,9 +64,9 @@ export default function ContactPage() {
     <>
       <IntroLoader
         onComplete={() => setIsIntroFinished(true)}
-        pageName="GET IN TOUCH"
-        quote="Let's build something worth remembering."
-        iconType="talk"
+        pageName="YENOH"
+        quote="We build brands that grow."
+        iconType="logo"
         accentColor="var(--yellow)"
       />
       <div

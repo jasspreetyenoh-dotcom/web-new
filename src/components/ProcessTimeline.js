@@ -1,4 +1,5 @@
 "use client";
+import { VscCompass, VscMap, VscEdit, VscRocket, VscGraphLine } from "react-icons/vsc";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
@@ -9,15 +10,15 @@ const steps = [
   {
     num: "01",
     name: "Discover",
-    icon: "🔍",
-    desc: "Mapping constraints, examining competitors, and aligning targets.",
-    detail: "We conduct deep-dive stakeholder workshops, auditor reviews, and competitor gap analyses to identify market opportunities and establish initial product positioning.",
+    icon: <VscCompass />,
+    desc: "Uncovering your market positioning and audience intent.",
+    detail: "We begin by diving deep into your brand's DNA, conducting thorough competitive research, and identifying exact audience pain points to build a data-driven project roadmap.",
     deliverables: ["Stakeholder Workshops", "Competitor Audit", "Target Persona Mapping"]
   },
   {
     num: "02",
     name: "Strategy",
-    icon: "🗺️",
+    icon: <VscMap />,
     desc: "Structuring narrative funnels and positioning layouts.",
     detail: "The Strategy phase maps out user journeys, site maps, and copywriting blueprints, developing high-converting marketing frameworks and corporate brand guidelines.",
     deliverables: ["User Funnel Architecture", "Site Maps & Wireframes", "Brand Messaging Guide"]
@@ -25,7 +26,7 @@ const steps = [
   {
     num: "03",
     name: "Create",
-    icon: "✏️",
+    icon: <VscEdit />,
     desc: "Polishing graphics, writing copy, and crafting performance code.",
     detail: "We move into production: designing custom mockups, refining layouts, animating micro-interactions, and coding fast responsive frontends with pixel-perfect fidelity.",
     deliverables: ["UI/UX Design Mockups", "High-Converting Copy", "Next.js Frontend Code"]
@@ -33,7 +34,7 @@ const steps = [
   {
     num: "04",
     name: "Launch",
-    icon: "🚀",
+    icon: <VscRocket />,
     desc: "Publishing channels, setting analytics, and verifying systems.",
     detail: "Launch involves publishing web platforms, configuring servers, setting up Google Tag trackers, checking page speeds, and running QA checks on lead funnels.",
     deliverables: ["Production Server Deploy", "Analytics & Tag Manager", "Speed & QA Audits"]
@@ -41,7 +42,7 @@ const steps = [
   {
     num: "05",
     name: "Scale",
-    icon: "📈",
+    icon: <VscGraphLine />,
     desc: "Refining ad metrics, expanding assets, and scaling reach.",
     detail: "Once live, we Scale impact: managing targeted Meta and Google ad budgets, running creative variation tests, and tracking organic search traffic for compounding growth.",
     deliverables: ["Paid Campaign Management", "Creative A/B Testing", "SEO & Growth Tracking"]

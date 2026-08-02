@@ -589,6 +589,8 @@ header {
   overflow: hidden;
   white-space: nowrap;
   width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
 .marquee-track {
@@ -598,6 +600,27 @@ header {
 
 .marquee-track:hover {
   animation-play-state: paused;
+}
+
+.marquee-logo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: grayscale(100%) opacity(0.6);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.marquee-logo-circle:hover {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.05);
 }
 
 .marquee-item {

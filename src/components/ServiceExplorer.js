@@ -1,4 +1,5 @@
 "use client";
+import { VscPlayCircle, VscLocation, VscSearch } from "react-icons/vsc";
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -430,7 +431,7 @@ const VideoProductionShowcase = () => {
       id: "biinaii-studios",
       label: "Biinaii Studios",
       tag: "BTS & Teaser",
-      icon: "🎬",
+      icon: <VscPlayCircle />,
       radius: "255px 15px 225px 15px / 15px 225px 15px 255px",
       rotation: "-1.2deg"
     },
@@ -883,13 +884,13 @@ const serviceData = [
         {/* Interactive Simulated Google Search & Maps Card */}
         <div className="gmb-simulated-card" style={{ background: "var(--paper)", padding: "20px", borderRadius: "20px", border: "2.5px solid var(--ink)", display: "flex", flexDirection: "column", gap: "14px" }}>
           <div className="gmb-search-bar-row" style={{ display: "flex", alignItems: "center", gap: "12px", background: "#FFF", padding: "12px 18px", borderRadius: "100px", border: "2px solid var(--ink)", boxShadow: "2px 3px 0 var(--ink)" }}>
-            <span style={{ fontSize: "16px", flexShrink: 0 }}>🔍</span>
+            <span style={{ fontSize: "16px", flexShrink: 0, display: "inline-flex", alignItems: "center" }}><VscSearch /></span>
             <span className="gmb-search-query-text" style={{ fontFamily: "var(--font-headings)", fontWeight: 800, fontSize: "14px", color: "var(--ink)" }}>Best Immigration & Dining Near Me</span>
             <span className="gmb-rank-badge" style={{ marginLeft: "auto", background: "#3B82F6", color: "#FFF", padding: "4px 10px", borderRadius: "100px", fontSize: "11px", fontFamily: "var(--font-headings)", fontWeight: 900, flexShrink: 0 }}>#1 Ranked</span>
           </div>
 
           <div className="gmb-result-box" style={{ display: "flex", gap: "14px", flexWrap: "wrap", alignItems: "center", background: "#FFF", padding: "16px", borderRadius: "14px", border: "1.5px solid rgba(0,0,0,0.1)" }}>
-            <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "#FEF3C7", border: "2px solid #F59E0B", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", flexShrink: 0 }}>📍</div>
+            <div style={{ width: "42px", height: "42px", borderRadius: "12px", background: "#FEF3C7", border: "2px solid #F59E0B", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", flexShrink: 0 }}><VscLocation /></div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div className="gmb-result-title" style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "15px" }}>Punjab Immigration & Dolma Momos</div>
               <div className="gmb-result-sub" style={{ fontSize: "12.5px", color: "#059669", fontWeight: 800, marginTop: "2px" }}>★★★★★ 4.9 (150+ Verified Google Reviews) • GMB First Drive Ready</div>
@@ -1327,7 +1328,7 @@ export default function ServiceExplorer() {
         {/* Navigation Bar (Sticky Left on PC, Swipable Pills Bar on Mobile) */}
         <div className="service-nav-sticky">
           <div className="service-nav-header" style={{ fontSize: "13px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "2px", color: "var(--ink-45)", marginBottom: "16px" }}>
-            Interactive Explorer ⭐
+            Interactive Explorer
           </div>
           <div className="service-nav-list">
             {serviceData.map((s) => (

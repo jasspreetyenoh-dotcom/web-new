@@ -70,10 +70,10 @@ export default function AboutPage() {
     <>
       <IntroLoader
         onComplete={() => setIsIntroFinished(true)}
-        pageName="OUR STORY"
-        quote="Crafting legacies, not chasing trends."
-        iconType="story"
-        accentColor="#FF6B4A"
+        pageName="YENOH"
+        quote="We build brands that grow."
+        iconType="logo"
+        accentColor="var(--yellow)"
       />
       <div
         style={{

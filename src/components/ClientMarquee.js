@@ -27,18 +27,7 @@ export default function ClientMarquee() {
           {/* Render twice for seamless looping */}
           {clients.map((client, idx) => (
             <div className="marquee-item" key={`c1-${idx}`} style={{ padding: "0 24px" }}>
-              <div style={{
-                width: "120px",
-                height: "120px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                position: "relative",
-                background: "#fff",
-                border: "1px solid rgba(0,0,0,0.05)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
+              <div className="marquee-logo-circle">
                 <Image 
                   src={client.logo} 
                   alt={client.name} 
@@ -51,18 +40,7 @@ export default function ClientMarquee() {
           ))}
           {clients.map((client, idx) => (
             <div className="marquee-item" key={`c2-${idx}`} style={{ padding: "0 24px" }}>
-              <div style={{
-                width: "120px",
-                height: "120px",
-                borderRadius: "50%",
-                overflow: "hidden",
-                position: "relative",
-                background: "#fff",
-                border: "1px solid rgba(0,0,0,0.05)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
+              <div className="marquee-logo-circle">
                 <Image 
                   src={client.logo} 
                   alt={client.name} 
