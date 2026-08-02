@@ -97,7 +97,7 @@ export default function ContactPage() {
       {/* ── HERO ── */}
       <section className="contact-hero-section" style={{
         minHeight: "100vh", display: "flex", flexDirection: "column",
-        justifyContent: "center", padding: "140px 5vw 80px",
+        justifyContent: "flex-start", padding: "100px 5vw 40px",
         position: "relative", overflow: "hidden",
       }}>
         {/* Crayon decorations */}
@@ -108,7 +108,7 @@ export default function ContactPage() {
           <motion.div
             className="contact-eyebrow"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 40 }}
+            style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}
           >
             <span style={{ width: 48, height: 3, background: "var(--yellow)", borderRadius: 2, display: "block" }} />
             <span style={{ fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--ink-45)" }}>
@@ -120,7 +120,7 @@ export default function ContactPage() {
           <h1 className="contact-hero-h1" style={{
             fontFamily: "var(--font-headings)", fontWeight: 900,
             fontSize: "clamp(52px, 8.5vw, 128px)", lineHeight: 1.0,
-            letterSpacing: "-0.03em", textTransform: "uppercase", margin: "0 0 48px",
+            letterSpacing: "-0.03em", textTransform: "uppercase", margin: "0 0 24px",
           }}>
             {["GOT A BIG", "IDEA? LET'S"].map((line, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
@@ -135,7 +135,7 @@ export default function ContactPage() {
 
           {/* Sub-text */}
           <motion.p className="contact-hero-sub" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ fontSize: "clamp(18px, 2vw, 26px)", color: "var(--ink-70)", maxWidth: 640, lineHeight: 1.55, marginBottom: 56, fontWeight: 500 }}>
+            style={{ fontSize: "clamp(18px, 2vw, 26px)", color: "var(--ink-70)", maxWidth: 640, lineHeight: 1.55, marginBottom: 40, fontWeight: 500 }}>
             Whether you&apos;re launching a brand, scaling a business, or just exploring—
             we&apos;re ready to listen and make things happen.
           </motion.p>
