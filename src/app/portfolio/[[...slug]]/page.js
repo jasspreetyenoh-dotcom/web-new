@@ -164,10 +164,10 @@ export default function PortfolioSPA({ params: paramsPromise }) {
     <>
       <IntroLoader
         onComplete={() => setIsIntroFinished(true)}
-        pageName="SELECTED WORK"
-        quote="Work built to leave a lasting impression."
-        iconType="work"
-        accentColor="#00C2A8"
+        pageName="YENOH"
+        quote="We build brands that grow."
+        iconType="logo"
+        accentColor="var(--yellow)"
       />
       <div
         style={{
@@ -578,7 +578,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
             >
               <motion.div layoutId={`project-image-container-${activeProject.id}`} style={{ position: "absolute", inset: 0, background: activeProject.color || "var(--ink)" }} />
               
-              <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "40px", zIndex: 10 }}>
+              <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: "60px 10vw", zIndex: 10 }}>
                 {/* Client Logo Badge in Hero */}
                 <motion.div 
                   initial={{ opacity: 0, y: -15 }}
@@ -589,7 +589,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                 </motion.div>
 
                 {/* Case Study Title (Crisp Solid Text, No Shadows) */}
-                <motion.h1 layoutId={`project-title-${activeProject.id}`} className="cs-hero-title" style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(36px, 6.5vw, 100px)", textTransform: "uppercase", color: "var(--paper)", lineHeight: 0.95, margin: 0, width: "100%", overflow: "hidden", padding: "0 20px" }}>
+                <motion.h1 layoutId={`project-title-${activeProject.id}`} className="cs-hero-title" style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(28px, 4.5vw, 64px)", textTransform: "uppercase", color: "var(--paper)", lineHeight: 0.95, margin: 0, width: "100%", overflow: "hidden", padding: "0 20px" }}>
                   <BlurText key={activeProject.id} text={activeProject.name} delay={200} animateBy="letters" direction="bottom" />
                 </motion.h1>
 
