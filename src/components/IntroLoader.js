@@ -13,16 +13,37 @@ export default function IntroLoader({
 }) {
   const [isVisible, setIsVisible] = useState(true);
 
+  const [hasCheckedSession, setHasCheckedSession] = useState(false);
+  const [shouldShow, setShouldShow] = useState(true);
+
   useEffect(() => {
+    // Check if we've already shown the loader in this session
+    const hasSeen = sessionStorage.getItem('intro_seen');
+    setHasCheckedSession(true);
+    
+    if (hasSeen) {
+      setShouldShow(false);
+      setIsVisible(false);
+      if (onComplete) onComplete();
+      return;
+    }
+    
+    // If not seen, mark it as seen and run the timer
+    sessionStorage.setItem('intro_seen', 'true');
+    
     const timer = setTimeout(() => {
       if (onComplete) {
-        onComplete(); // Simultaneously trigger page fade-in for a seamless cross-fade
+        onComplete();
       }
       setIsVisible(false);
     }, durationMs);
 
     return () => clearTimeout(timer);
   }, [onComplete, durationMs]);
+
+  // Prevent flash during hydration/check
+  if (!hasCheckedSession) return null;
+  if (!shouldShow) return null;
 
   const smoothEase = [0.65, 0, 0.35, 1];
 
@@ -249,7 +270,7 @@ export default function IntroLoader({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            OPEN IN DESKTOP FOR BEST EXPERIENCE
+            BEST VIEWED ON DESKTOP
           </motion.div>
         </motion.div>
       )}
