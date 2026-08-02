@@ -219,7 +219,7 @@ export default function AboutPage() {
           `}</style>
 
       {/* 1. HERO */}
-      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center" }}>
+      <section className="hero-section" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", paddingBottom: "120px", paddingTop: "80px" }}>
         {/* Abstract Background Orbs */}
         <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
           <div style={{ position: "absolute", bottom: "-10%", left: "-10%", width: "40vw", height: "40vw", background: "var(--ink)", opacity: 0.05, filter: "blur(100px)", borderRadius: "50%", zIndex: -1 }} />
