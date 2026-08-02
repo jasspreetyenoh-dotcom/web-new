@@ -102,7 +102,6 @@ export default function ContactPage() {
       }}>
         {/* Crayon decorations */}
         <CrayonCornerScribble />
-        <ContactCrayons />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", width: "100%" }}>
           {/* Eye-brow */}
@@ -971,73 +970,17 @@ function SuccessState() {
 function CrayonCornerScribble() {
   return (
     <>
-      {/* Top-right wavy scribble */}
-      <motion.svg
-        className="crayon-scribble"
-        aria-hidden="true"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, delay: 1.4, ease: "easeOut" }}
-        style={{ position: "absolute", top: 90, right: -10, opacity: 0.18, pointerEvents: "none" }}
-        width="280" height="260" viewBox="0 0 280 260"
-      >
-        <path d="M60 220 Q 100 80, 220 40 Q 260 20 270 60" stroke="#F6C000" strokeWidth="5" fill="none" strokeLinecap="round" />
-        <path d="M30 200 Q 80 60, 210 20" stroke="#1E1E1E" strokeWidth="3" fill="none" strokeLinecap="round" strokeDasharray="8 6" />
-        <circle cx="268" cy="62" r="9" fill="#F6C000" />
-        <circle cx="222" cy="38" r="5" fill="#1E1E1E" opacity="0.5" />
-        {/* Small star */}
-        <path d="M240 100 L244 110 L255 110 L246 117 L249 128 L240 121 L231 128 L234 117 L225 110 L236 110 Z" fill="#F6C000" opacity="0.6" />
-      </motion.svg>
-
-      {/* Bottom-left scribble doodle */}
-      <motion.svg
-        className="crayon-scribble"
-        aria-hidden="true"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 1.6, ease: "easeOut" }}
-        style={{ position: "absolute", bottom: 40, left: -10, opacity: 0.14, pointerEvents: "none" }}
-        width="200" height="160" viewBox="0 0 200 160"
-      >
-        <path d="M10 140 Q 60 60, 140 80 Q 180 90 190 50" stroke="#F6C000" strokeWidth="5" fill="none" strokeLinecap="round" />
-        <path d="M20 120 Q 70 50, 150 70" stroke="#1E1E1E" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        {/* Dots */}
-        <circle cx="190" cy="50" r="7" fill="#F6C000" />
-        <circle cx="10" cy="140" r="5" fill="#1E1E1E" opacity="0.4" />
-      </motion.svg>
-
-      {/* Floating crayon stick — top-left */}
-      <motion.svg
-        className="crayon-scribble"
-        aria-hidden="true"
-        initial={{ opacity: 0, rotate: -15, y: -20 }}
-        animate={{ opacity: 1, rotate: -22, y: 0 }}
-        transition={{ duration: 1.1, delay: 1.8, ease: "easeOut" }}
-        style={{ position: "absolute", top: 130, left: 32, opacity: 0.2, pointerEvents: "none" }}
-        width="52" height="180" viewBox="0 0 52 180"
-      >
-        {/* Crayon body */}
-        <rect x="12" y="20" width="28" height="130" rx="5" fill="#F6C000" />
-        {/* Crayon tip */}
-        <polygon points="12,150 40,150 26,175" fill="#E8A800" />
-        {/* Crayon top */}
-        <rect x="12" y="10" width="28" height="14" rx="3" fill="#1E1E1E" opacity="0.6" />
-        {/* Label line */}
-        <line x1="18" y1="60" x2="34" y2="60" stroke="white" strokeWidth="2" opacity="0.5" />
-        <line x1="18" y1="72" x2="34" y2="72" stroke="white" strokeWidth="1.5" opacity="0.4" />
-      </motion.svg>
-
-      {/* Floating crayon stick — right mid */}
+      {/* Floating crayon stick — top right (Low Opacity) */}
       <motion.svg
         className="crayon-scribble"
         aria-hidden="true"
         initial={{ opacity: 0, rotate: 10, y: 20 }}
-        animate={{ opacity: 1, rotate: 18, y: 0 }}
-        transition={{ duration: 1.0, delay: 2.0, ease: "easeOut" }}
-        style={{ position: "absolute", top: 200, right: 80, opacity: 0.18, pointerEvents: "none" }}
+        animate={{ opacity: 0.08, rotate: 25, y: 0 }}
+        transition={{ duration: 1.0, delay: 1.2, ease: "easeOut" }}
+        style={{ position: "absolute", top: 80, right: "10vw", pointerEvents: "none" }}
         width="42" height="150" viewBox="0 0 42 150"
       >
-        {/* Crayon body (red-ish) */}
+        {/* Crayon body */}
         <rect x="8" y="12" width="26" height="108" rx="4" fill="#FF6B6B" />
         {/* Tip */}
         <polygon points="8,120 34,120 21,148" fill="#cc4444" />
@@ -1046,80 +989,6 @@ function CrayonCornerScribble() {
         {/* Label lines */}
         <line x1="14" y1="48" x2="28" y2="48" stroke="white" strokeWidth="2" opacity="0.5" />
         <line x1="14" y1="58" x2="28" y2="58" stroke="white" strokeWidth="1.5" opacity="0.35" />
-      </motion.svg>
-    </>
-  );
-}
-
-// ─── Additional Contact Page Crayon Doodles (Stars, Zigzag, Swirl) ─────────────
-function ContactCrayons() {
-  return (
-    <>
-      {/* Zigzag scribble across the top-left corner */}
-      <motion.svg
-        aria-hidden="true"
-        className="crayon-scribble"
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: 1, opacity: 1 }}
-        transition={{ duration: 1.8, delay: 1.5, ease: "easeInOut" }}
-        style={{ position: "absolute", top: 260, left: "5vw", pointerEvents: "none", opacity: 0.12 }}
-        width="180" height="60" viewBox="0 0 180 60"
-      >
-        <motion.path
-          d="M0 30 L20 10 L40 50 L60 10 L80 50 L100 10 L120 50 L140 10 L160 50 L180 30"
-          stroke="#F6C000" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round"
-          initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
-          transition={{ duration: 1.6, delay: 1.5, ease: "easeInOut" }}
-        />
-      </motion.svg>
-
-      {/* Swirl near the CTA buttons */}
-      <motion.svg
-        aria-hidden="true"
-        className="crayon-scribble"
-        style={{ position: "absolute", bottom: 120, right: "8vw", pointerEvents: "none", opacity: 0.13 }}
-        initial={{ rotate: -30, opacity: 0 }}
-        animate={{ rotate: 0, opacity: 1 }}
-        transition={{ duration: 1.2, delay: 1.9, ease: "easeOut" }}
-        width="100" height="100" viewBox="0 0 100 100"
-      >
-        <motion.path
-          d="M50 50 C 55 20, 85 25, 80 50 C 75 75, 40 70, 35 50 C 30 30, 60 25, 65 50 C 68 65, 52 72, 50 60"
-          stroke="#F6C000" strokeWidth="3" fill="none" strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.6, delay: 1.9 }}
-        />
-        <circle cx="50" cy="60" r="4" fill="#F6C000" opacity="0.8" />
-      </motion.svg>
-
-      {/* 5-point star doodle */}
-      <motion.svg
-        aria-hidden="true"
-        className="crayon-scribble"
-        style={{ position: "absolute", top: 170, left: "22vw", pointerEvents: "none", opacity: 0.15 }}
-        initial={{ scale: 0, rotate: -20 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ duration: 0.8, delay: 2.1, type: "spring", stiffness: 200 }}
-        width="48" height="48" viewBox="0 0 48 48"
-      >
-        <path d="M24 4 L28 18 L43 18 L31 27 L35 42 L24 33 L13 42 L17 27 L5 18 L20 18 Z"
-          fill="none" stroke="#F6C000" strokeWidth="2.5" strokeLinejoin="round" />
-      </motion.svg>
-
-      {/* Three dots — like an ellipsis doodle */}
-      <motion.svg
-        aria-hidden="true"
-        className="crayon-scribble"
-        style={{ position: "absolute", bottom: 220, left: "30vw", pointerEvents: "none", opacity: 0.13 }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 2.2 }}
-        width="60" height="16" viewBox="0 0 60 16"
-      >
-        <circle cx="8" cy="8" r="5" fill="#F6C000" />
-        <circle cx="30" cy="8" r="5" fill="#1E1E1E" />
-        <circle cx="52" cy="8" r="5" fill="#F6C000" />
       </motion.svg>
     </>
   );
