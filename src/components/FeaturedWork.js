@@ -6,6 +6,7 @@ import Link from "next/link";
 import HighlightText from "./HighlightText";
 import ScrollCrayonLine from "./ScrollCrayonLine";
 import { ALL_PROJECTS } from "@/data/projects";
+import { getCloudinaryUrl } from "@/utils/cloudinary";
 
 export default function FeaturedWork() {
   const [hoveredIdx, setHoveredIdx] = useState(null);
@@ -21,20 +22,20 @@ export default function FeaturedWork() {
 
   const featuredAssets = {
     "punjab-immigration": {
-      website: "/projects/punjab-immigration/PCVIEW-PI.png",
-      reel: "/projects/punjab-immigration/_punjabimmigration_1779962453_3906930387473549860_67354189286.mp4",
-      instaGrid: "/projects/punjab-immigration/IMG_1597.PNG",
-      post: "/projects/punjab-immigration/Study Visa  Visiter Visa  Work Visa  PR (1).png"
+      website: getCloudinaryUrl("/projects/punjab-immigration/PCVIEW-PI.png"),
+      reel: getCloudinaryUrl("/projects/punjab-immigration/_punjabimmigration_1779962453_3906930387473549860_67354189286.mp4"),
+      instaGrid: getCloudinaryUrl("/projects/punjab-immigration/IMG_1597.PNG"),
+      post: getCloudinaryUrl("/projects/punjab-immigration/Study Visa  Visiter Visa  Work Visa  PR (1).png")
     },
     "harman-sekhon": {
-      reel: "/projects/harman-sekhon/hs1.mp4",
-      graphic: "/projects/harman-sekhon/hsg1.jpg",
-      feed: "/projects/harman-sekhon/IMG_1616.PNG"
+      reel: getCloudinaryUrl("/projects/harman-sekhon/hs1.mp4"),
+      graphic: getCloudinaryUrl("/projects/harman-sekhon/hsg1.jpg"),
+      feed: getCloudinaryUrl("/projects/harman-sekhon/IMG_1616.PNG")
     },
     "samarth-academy": {
-      website: "/projects/samarth-academy/PCVIEW-SAMARTH.png",
-      reel: "/projects/samarth-academy/gs1.mp4",
-      portal: "/projects/samarth-academy/mobile1.PNG"
+      website: getCloudinaryUrl("/projects/samarth-academy/PCVIEW-SAMARTH.png"),
+      reel: getCloudinaryUrl("/projects/samarth-academy/gs1.mp4"),
+      portal: getCloudinaryUrl("/projects/samarth-academy/mobile1.PNG")
     },
     "yug-chintak": {
       ep1: "https://img.youtube.com/vi/amm9OPukoEA/maxresdefault.jpg",
@@ -42,9 +43,9 @@ export default function FeaturedWork() {
       ep3: "https://img.youtube.com/vi/MeLX6j-nPp0/maxresdefault.jpg"
     },
     "dolma-aunti-momos": {
-      website: "/projects/dolma-aunti-momos/PCVIEW-DOLMA.png",
-      reel: "/projects/dolma-aunti-momos/homepagereel.mp4",
-      post: "/projects/dolma-aunti-momos/dolmapost.png"
+      website: getCloudinaryUrl("/projects/dolma-aunti-momos/PCVIEW-DOLMA.png"),
+      reel: getCloudinaryUrl("/projects/dolma-aunti-momos/homepagereel.mp4"),
+      post: getCloudinaryUrl("/projects/dolma-aunti-momos/dolmapost.png")
     }
   };
 
@@ -52,7 +53,7 @@ export default function FeaturedWork() {
     .map(id => ALL_PROJECTS.find(p => p.id === id))
     .filter(Boolean)
     .map(project => {
-      const videoSrc = project.id === "dolma-aunti-momos" ? "/projects/dolma-aunti-momos/homepagereel.mp4" : null;
+      const videoSrc = project.id === "dolma-aunti-momos" ? getCloudinaryUrl("/projects/dolma-aunti-momos/homepagereel.mp4") : null;
       const ratio = project.id === "dolma-aunti-momos" ? "1122/1402" : (project.id === "harman-sekhon" ? "4/5" : "16/10.5");
       const displayTitle = project.id === "punjab-immigration" ? "Immigration Consultancy" : `${project.category || "Campaign"} — ${project.industry}`;
       return {

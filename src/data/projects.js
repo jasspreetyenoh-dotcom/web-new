@@ -1,4 +1,6 @@
-export const ALL_PROJECTS = [
+import { getCloudinaryUrl } from "@/utils/cloudinary";
+
+const RAW_PROJECTS = [
   {
     id: "punjab-immigration",
     name: "Punjab Immigration",
@@ -783,6 +785,16 @@ export const ALL_PROJECTS = [
     nextProjectSlug: "punjab-immigration"
   }
 ];
+
+export const ALL_PROJECTS = RAW_PROJECTS.map(p => ({
+  ...p,
+  image: getCloudinaryUrl(p.image),
+  video: p.video ? getCloudinaryUrl(p.video) : undefined,
+  gallery: p.gallery ? p.gallery.map(g => ({
+    ...g,
+    src: getCloudinaryUrl(g.src)
+  })) : p.gallery
+}));
 
 export const projectsData = ALL_PROJECTS.reduce((acc, p) => {
   acc[p.id] = p;

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { getCloudinaryUrl } from "@/utils/cloudinary";
 
 // Custom Clean Floating Tile Component (Home screen style)
 const CustomTile = ({ children, aspectRatio = "9/16", width = "100%", style = {}, isHoverable = true }) => {
@@ -39,11 +40,11 @@ const CustomTile = ({ children, aspectRatio = "9/16", width = "100%", style = {}
 // Website Development Container with PC Browser Header & Direct Case Study Button
 const WebSlideshow = () => {
   const webSlides = [
-    { title: "Punjab Immigration Platform", slug: "punjab-immigration", url: "punjabimmigration.com", img: "/projects/punjab-immigration/PCVIEW-PI.png", mobileImg: "/projects/punjab-immigration/MOBILE VIEW.jpeg", tag: "Immigration & Visa Platform" },
-    { title: "Samarth Academy Portal", slug: "samarth-academy", url: "samarthacademy.in", img: "/projects/samarth-academy/PCVIEW-SAMARTH.png", mobileImg: "/projects/samarth-academy/mobile1.PNG", tag: "EdTech Learning Portal" },
-    { title: "Dolma Aunti Momos Brand", slug: "dolma-aunti-momos", url: "dolmaauntimomos.com", img: "/projects/dolma-aunti-momos/PCVIEW-DOLMA.png", mobileImg: "/projects/dolma-aunti-momos/MOBILE VIEW DOLMA.png", tag: "F&B Digital Storefront" },
-    { title: "BDS Blossoms School", slug: "bds-blossoms", url: "bdsblossoms.edu", img: "/projects/bds-blossoms/PCVIEW1.png", mobileImg: "/projects/bds-blossoms/mobile1.PNG", tag: "Educational Portal" },
-    { title: "Dsidein Studio", slug: "dsidein", url: "dsidein.com", img: "/projects/dsidein/PCVIEW1.png", mobileImg: "/projects/dsidein/MOBILEVIEW1.png", tag: "Creative Studio Web App" },
+    { title: "Punjab Immigration Platform", slug: "punjab-immigration", url: "punjabimmigration.com", img: getCloudinaryUrl("/projects/punjab-immigration/PCVIEW-PI.png"), mobileImg: getCloudinaryUrl("/projects/punjab-immigration/MOBILE VIEW.jpeg"), tag: "Immigration & Visa Platform" },
+    { title: "Samarth Academy Portal", slug: "samarth-academy", url: "samarthacademy.in", img: getCloudinaryUrl("/projects/samarth-academy/PCVIEW-SAMARTH.png"), mobileImg: getCloudinaryUrl("/projects/samarth-academy/mobile1.PNG"), tag: "EdTech Learning Portal" },
+    { title: "Dolma Aunti Momos Brand", slug: "dolma-aunti-momos", url: "dolmaauntimomos.com", img: getCloudinaryUrl("/projects/dolma-aunti-momos/PCVIEW-DOLMA.png"), mobileImg: getCloudinaryUrl("/projects/dolma-aunti-momos/MOBILE VIEW DOLMA.png"), tag: "F&B Digital Storefront" },
+    { title: "BDS Blossoms School", slug: "bds-blossoms", url: "bdsblossoms.edu", img: getCloudinaryUrl("/projects/bds-blossoms/PCVIEW1.png"), mobileImg: getCloudinaryUrl("/projects/bds-blossoms/mobile1.PNG"), tag: "Educational Portal" },
+    { title: "Dsidein Studio", slug: "dsidein", url: "dsidein.com", img: getCloudinaryUrl("/projects/dsidein/PCVIEW1.png"), mobileImg: getCloudinaryUrl("/projects/dsidein/MOBILEVIEW1.png"), tag: "Creative Studio Web App" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -167,22 +168,22 @@ const WebSlideshow = () => {
 // Dual Vertical Container Showcase: Left 9:16 Auto-playing/scrolling reel, Right 9:16 Step-scrolling Instagram Grid
 const DualVerticalShowcase = () => {
   const reels = [
-    { title: "Zikr Randhawa Teaser", client: "Biinaii Studios", slug: "biinaii-studios", src: "/projects/biinaii-studios/teaserbn.mp4", tag: "Official Teaser" },
-    { title: "Punjab Immigration Reel", client: "Punjab Immigration", slug: "punjab-immigration", src: "/projects/punjab-immigration/_punjabimmigration_1779962453_3906930387473549860_67354189286.mp4", tag: "Visa Campaign" },
-    { title: "Dolma Momos Viral Reel", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", src: "/projects/dolma-aunti-momos/DAREEL1.mp4", tag: "224K+ Views" },
-    { title: "Harman Sekhon PR Reel", client: "Harman Sekhon", slug: "harman-sekhon", src: "/projects/harman-sekhon/hs1.mp4", tag: "PR & Personal Brand" },
-    { title: "Samarth Academy Reel", client: "Samarth Academy", slug: "samarth-academy", src: "/projects/samarth-academy/gs1.mp4", tag: "EdTech Campaign" },
-    { title: "Chaat King India Reel", client: "Chaat King India", slug: "chaat-king-india", src: "/projects/chaat-king-india/cki1.mp4", tag: "F&B Franchise" },
+    { title: "Zikr Randhawa Teaser", client: "Biinaii Studios", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/teaserbn.mp4"), tag: "Official Teaser" },
+    { title: "Punjab Immigration Reel", client: "Punjab Immigration", slug: "punjab-immigration", src: getCloudinaryUrl("/projects/punjab-immigration/_punjabimmigration_1779962453_3906930387473549860_67354189286.mp4"), tag: "Visa Campaign" },
+    { title: "Dolma Momos Viral Reel", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", src: getCloudinaryUrl("/projects/dolma-aunti-momos/DAREEL1.mp4"), tag: "224K+ Views" },
+    { title: "Harman Sekhon PR Reel", client: "Harman Sekhon", slug: "harman-sekhon", src: getCloudinaryUrl("/projects/harman-sekhon/hs1.mp4"), tag: "PR & Personal Brand" },
+    { title: "Samarth Academy Reel", client: "Samarth Academy", slug: "samarth-academy", src: getCloudinaryUrl("/projects/samarth-academy/gs1.mp4"), tag: "EdTech Campaign" },
+    { title: "Chaat King India Reel", client: "Chaat King India", slug: "chaat-king-india", src: getCloudinaryUrl("/projects/chaat-king-india/cki1.mp4"), tag: "F&B Franchise" },
   ];
 
   const instaGrids = [
-    { title: "Punjab Immigration Grid", client: "Punjab Immigration", slug: "punjab-immigration", img: "/projects/punjab-immigration/IMG_1597.PNG", tag: "Instagram Curation" },
-    { title: "Dolma Momos Grid 01", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", img: "/projects/dolma-aunti-momos/IMG_1599.PNG", tag: "Viral Brand Grid" },
-    { title: "Dolma Momos Grid 02", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", img: "/projects/dolma-aunti-momos/IMG_1600.PNG", tag: "Launch Aesthetics" },
-    { title: "Chaat King India Grid 01", client: "Chaat King India", slug: "chaat-king-india", img: "/projects/chaat-king-india/IMG_1603.PNG", tag: "Franchise Curation" },
-    { title: "Chaat King India Grid 02", client: "Chaat King India", slug: "chaat-king-india", img: "/projects/chaat-king-india/IMG_1604.PNG", tag: "Street Food Aesthetics" },
-    { title: "Harman Sekhon Grid 01", client: "Harman Sekhon", slug: "harman-sekhon", img: "/projects/harman-sekhon/IMG_1616.PNG", tag: "PR Feed Curation" },
-    { title: "Harman Sekhon Grid 02", client: "Harman Sekhon", slug: "harman-sekhon", img: "/projects/harman-sekhon/IMG_1617.PNG", tag: "Leadership Feed" },
+    { title: "Punjab Immigration Grid", client: "Punjab Immigration", slug: "punjab-immigration", img: getCloudinaryUrl("/projects/punjab-immigration/IMG_1597.PNG"), tag: "Instagram Curation" },
+    { title: "Dolma Momos Grid 01", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", img: getCloudinaryUrl("/projects/dolma-aunti-momos/IMG_1599.PNG"), tag: "Viral Brand Grid" },
+    { title: "Dolma Momos Grid 02", client: "Dolma Aunti Momos", slug: "dolma-aunti-momos", img: getCloudinaryUrl("/projects/dolma-aunti-momos/IMG_1600.PNG"), tag: "Launch Aesthetics" },
+    { title: "Chaat King India Grid 01", client: "Chaat King India", slug: "chaat-king-india", img: getCloudinaryUrl("/projects/chaat-king-india/IMG_1603.PNG"), tag: "Franchise Curation" },
+    { title: "Chaat King India Grid 02", client: "Chaat King India", slug: "chaat-king-india", img: getCloudinaryUrl("/projects/chaat-king-india/IMG_1604.PNG"), tag: "Street Food Aesthetics" },
+    { title: "Harman Sekhon Grid 01", client: "Harman Sekhon", slug: "harman-sekhon", img: getCloudinaryUrl("/projects/harman-sekhon/IMG_1616.PNG"), tag: "PR Feed Curation" },
+    { title: "Harman Sekhon Grid 02", client: "Harman Sekhon", slug: "harman-sekhon", img: getCloudinaryUrl("/projects/harman-sekhon/IMG_1617.PNG"), tag: "Leadership Feed" },
   ];
 
   const [currentReelIndex, setCurrentReelIndex] = useState(0);
@@ -391,11 +392,11 @@ const VideoProductionShowcase = () => {
 
   const biinaiiVideos = [
     { title: "Golden Batt Music Video BTS (Official Behind The Scenes)", type: "youtube", id: "ZVHXu8a-NJI", embedUrl: "https://www.youtube.com/embed/ZVHXu8a-NJI?si=FLdU-qXg-oHnkORQ", thumbnail: "https://img.youtube.com/vi/ZVHXu8a-NJI/maxresdefault.jpg", tag: "Golden Batt BTS Shoot" },
-    { title: "Biinaii Studios - Zikr Randhawa Official Teaser", type: "video", slug: "biinaii-studios", src: "/projects/biinaii-studios/teaserbn.mp4", tag: "Official Teaser Release" },
-    { title: "Biinaii Studios - Reel 01", type: "video", slug: "biinaii-studios", src: "/projects/biinaii-studios/bn1.mp4", tag: "Artist Reel 01" },
-    { title: "Biinaii Studios - Reel 02", type: "video", slug: "biinaii-studios", src: "/projects/biinaii-studios/bn2.mp4", tag: "Artist Reel 02" },
-    { title: "Biinaii Studios - Reel 03", type: "video", slug: "biinaii-studios", src: "/projects/biinaii-studios/bn3.mp4", tag: "Artist Reel 03" },
-    { title: "Biinaii Studios - Reel 04", type: "video", slug: "biinaii-studios", src: "/projects/biinaii-studios/bn4.mp4", tag: "Artist Reel 04" },
+    { title: "Biinaii Studios - Zikr Randhawa Official Teaser", type: "video", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/teaserbn.mp4"), tag: "Official Teaser Release" },
+    { title: "Biinaii Studios - Reel 01", type: "video", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/bn1.mp4"), tag: "Artist Reel 01" },
+    { title: "Biinaii Studios - Reel 02", type: "video", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/bn2.mp4"), tag: "Artist Reel 02" },
+    { title: "Biinaii Studios - Reel 03", type: "video", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/bn3.mp4"), tag: "Artist Reel 03" },
+    { title: "Biinaii Studios - Reel 04", type: "video", slug: "biinaii-studios", src: getCloudinaryUrl("/projects/biinaii-studios/bn4.mp4"), tag: "Artist Reel 04" },
   ];
 
   const yugChintakEpisodes = [
@@ -405,10 +406,10 @@ const VideoProductionShowcase = () => {
   ];
 
   const booksRouteVideos = [
-    { title: "Books Route Documentary 1", slug: "books-route", src: "/projects/books-route/sp1.mp4" },
-    { title: "Books Route Documentary 2", slug: "books-route", src: "/projects/books-route/sp2.mp4" },
-    { title: "Books Route Documentary 3", slug: "books-route", src: "/projects/books-route/sp4.mp4" },
-    { title: "Books Route Documentary 4", slug: "books-route", src: "/projects/books-route/sp5.mp4" },
+    { title: "Books Route Documentary 1", slug: "books-route", src: getCloudinaryUrl("/projects/books-route/sp1.mp4") },
+    { title: "Books Route Documentary 2", slug: "books-route", src: getCloudinaryUrl("/projects/books-route/sp2.mp4") },
+    { title: "Books Route Documentary 3", slug: "books-route", src: getCloudinaryUrl("/projects/books-route/sp4.mp4") },
+    { title: "Books Route Documentary 4", slug: "books-route", src: getCloudinaryUrl("/projects/books-route/sp5.mp4") },
   ];
 
   const [activeBiinaiiIndex, setActiveBiinaiiIndex] = useState(0);
