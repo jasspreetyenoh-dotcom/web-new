@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import fullLogo from "@/app/full logo.png";
 
 export default function IntroLoader({
   onComplete,
@@ -13,37 +14,15 @@ export default function IntroLoader({
 }) {
   const [isVisible, setIsVisible] = useState(true);
 
-  const [hasCheckedSession, setHasCheckedSession] = useState(false);
-  const [shouldShow, setShouldShow] = useState(true);
-
   useEffect(() => {
-    // Check if we've already shown the loader in this session
-    const hasSeen = sessionStorage.getItem('intro_seen');
-    setHasCheckedSession(true);
-    
-    if (hasSeen) {
-      setShouldShow(false);
-      setIsVisible(false);
-      if (onComplete) onComplete();
-      return;
-    }
-    
-    // If not seen, mark it as seen and run the timer
-    sessionStorage.setItem('intro_seen', 'true');
-    
     const timer = setTimeout(() => {
-      if (onComplete) {
-        onComplete();
-      }
+      if (onComplete) onComplete();
       setIsVisible(false);
     }, durationMs);
 
     return () => clearTimeout(timer);
   }, [onComplete, durationMs]);
 
-  // Prevent flash during hydration/check
-  if (!hasCheckedSession) return null;
-  if (!shouldShow) return null;
 
   const smoothEase = [0.65, 0, 0.35, 1];
 
@@ -263,12 +242,22 @@ export default function IntroLoader({
               </motion.g>
             </svg>
           </div>
-          
+
+          {/* Full YENOH Logo below the icon */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            style={{ marginTop: "20px" }}
+          >
+            <img src={fullLogo.src} alt="YENOH" style={{ height: "38px", width: "auto" }} />
+          </motion.div>
+
           <motion.div 
             className="intro-mobile-msg"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
           >
             BEST VIEWED ON DESKTOP
           </motion.div>

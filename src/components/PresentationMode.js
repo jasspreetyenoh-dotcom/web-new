@@ -42,9 +42,15 @@ export default function PresentationMode() {
           overflow-y: auto;
           padding-bottom: 0 !important;
         }
+        @media (max-width: 768px) {
+          .presentation-btn {
+            display: none !important;
+          }
+        }
       `}</style>
       
       <motion.button
+        className="presentation-btn"
         onClick={togglePresentation}
         whileHover={{ scale: 1.05, boxShadow: "2px 3px 0 #000" }}
         whileTap={{ scale: 0.95 }}

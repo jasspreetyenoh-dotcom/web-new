@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import fullLogo from "@/app/full logo.png";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,11 +20,7 @@ export default function Header() {
     <header style={{ transform: isScrolled ? "translateY(0)" : "none" }}>
       <div className="container nav-wrap">
         <a href="#" className="logo">
-          <svg viewBox="0 0 100 100" fill="none">
-            <path d="M20 22 C24 30, 40 55, 46 66 C50 73, 51 80, 50 86" stroke="#1D1D1D" strokeWidth="11" strokeLinecap="round" />
-            <path d="M46 66 C58 50, 68 34, 76 20 M70 18 L78 19 L76 30" stroke="#F6C000" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span>yenoh</span>
+          <img src={fullLogo.src} alt="YENOH Logo" style={{ height: "34px", width: "auto" }} />
         </a>
         
         <nav className="nav-links" aria-label="Main Navigation">

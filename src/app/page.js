@@ -108,7 +108,7 @@ export default function Home() {
 
               <div className="cta-buttons">
                 <Link href="/portfolio" className="btn btn-ghost">View Portfolio</Link>
-                <a href="mailto:hello@yenoh.co" className="btn">Start a Project</a>
+                <a href="mailto:grow@yenoh.in" className="btn">Start a Project</a>
               </div>
             </div>
           </section>

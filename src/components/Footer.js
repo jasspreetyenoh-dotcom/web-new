@@ -3,6 +3,7 @@
 import Link from "next/link";
 import ScrollCrayonLine from "./ScrollCrayonLine";
 import HighlightText from "./HighlightText";
+import fullLogo from "@/app/full logo.png";
 
 export default function Footer() {
   return (
@@ -24,11 +25,7 @@ export default function Footer() {
         <div className="footer-top">
           <div className="footer-brand">
             <a href="#" className="logo">
-              <svg viewBox="0 0 100 100" fill="none">
-                <path d="M20 22 C24 30, 40 55, 46 66 C50 73, 51 80, 50 86" stroke="#1D1D1D" strokeWidth="11" strokeLinecap="round" />
-                <path d="M46 66 C58 50, 68 34, 76 20 M70 18 L78 19 L76 30" stroke="#F6C000" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span>yenoh</span>
+              <img src={fullLogo.src} alt="YENOH Logo" style={{ height: "34px", width: "auto" }} />
             </a>
             <p className="footer-desc">
               We build{" "}
@@ -47,8 +44,8 @@ export default function Footer() {
             </div>
             <div className="footer-links-col">
               <span className="footer-col-title">Contact</span>
-              <a href="mailto:hello@yenoh.co" className="footer-link">hello@yenoh.co</a>
-              <a href="tel:+919876543210" className="footer-link">+91 98765 43210</a>
+              <a href="mailto:grow@yenoh.in" className="footer-link">grow@yenoh.in</a>
+              <a href="tel:+917986704293" className="footer-link">+91 79867 04293</a>
               <span className="footer-link" style={{ opacity: 0.6 }}>Amritsar, India</span>
             </div>
           </div>
@@ -68,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 YENOH Studio. All rights reserved.</span>
+          <span>© 2026 YENOH. All rights reserved.</span>
           <span>Minimal by design • Sketched by hand</span>
         </div>
       </div>

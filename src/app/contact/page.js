@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import Link from "next/link";
 import HighlightText from "@/components/HighlightText";
 import IntroLoader from "@/components/IntroLoader";
+import fullLogo from "@/app/full logo.png";
 import ScrollCrayonLine from "@/components/ScrollCrayonLine";
 
 // ─── Contact Data ─────────────────────────────────────────────────────────────
@@ -86,11 +87,7 @@ export default function ContactPage() {
         borderBottom: "1px solid var(--line-color)",
       }}>
         <Link href="/" style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "22px", letterSpacing: "-0.02em", color: "var(--ink)", display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
-          <svg viewBox="0 0 100 100" fill="none" style={{ width: 32, height: 32 }}>
-            <path d="M20 22 C24 30, 40 55, 46 66 C50 73, 51 80, 50 86" stroke="#1D1D1D" strokeWidth="11" strokeLinecap="round" />
-            <path d="M46 66 C58 50, 68 34, 76 20 M70 18 L78 19 L76 30" stroke="#F6C000" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          yenoh
+          <img src={fullLogo.src} alt="YENOH Logo" style={{ height: "34px", width: "auto" }} />
         </Link>
       </nav>
 
@@ -450,9 +447,9 @@ function ContactInfo() {
   const inView = useInView(ref, { once: true, amount: 0.3 });
 
   const items = [
-    { icon: CRAYON_ICONS.email,  label: "Email",  value: "hello@yenoh.co",       href: "mailto:hello@yenoh.co" },
-    { icon: CRAYON_ICONS.phone,  label: "Phone",  value: "+91 98765 43210",       href: "tel:+919876543210" },
-    { icon: CRAYON_ICONS.studio, label: "Studio", value: "Amritsar, Punjab",      href: "#" },
+    { icon: CRAYON_ICONS.email,  label: "Email",  value: "grow@yenoh.in",         href: "mailto:grow@yenoh.in" },
+    { icon: CRAYON_ICONS.phone,  label: "Phone",  value: "+91 79867 04293",        href: "tel:+917986704293" },
+    { icon: CRAYON_ICONS.studio, label: "Studio", value: "Amritsar, Punjab",       href: "#" },
     { icon: CRAYON_ICONS.hours,  label: "Hours",  value: "Mon–Sat · 10 AM – 7 PM", href: null },
   ];
 

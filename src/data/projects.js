@@ -641,7 +641,7 @@ const RAW_PROJECTS = [
     year: "2024",
     color: "#0F172A",
     image: "/projects/advocate-amarjeet-singh/p2.jpg",
-    summary: "",
+    summary: "Fought a very tough fight and lost by a mere margin, coming in 2nd place.",
     challenge: "Advocate Amarjeet Singh Pannu required a modern, data-driven digital campaign to mobilize local voters, build personal brand authority, and manage public messaging during a high-stakes campaign.",
     solution: "We deployed targeted Meta ad campaigns, produced high-impact video reels, managed community PR, and crafted authentic content that established overwhelming voter trust.",
     testimonial: {
@@ -785,6 +785,8 @@ const RAW_PROJECTS = [
     gallery: [],
     nextProjectSlug: "punjab-immigration"
   }
+];
+
 export const ALL_PROJECTS = RAW_PROJECTS.map(p => ({
   ...p,
   image: getCloudinaryUrl(p.image),

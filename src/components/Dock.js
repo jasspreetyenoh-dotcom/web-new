@@ -48,6 +48,7 @@ export default function Dock({
             icon={item.icon}
             label={item.label}
             onClick={item.onClick}
+            isActive={item.isActive}
             baseSize={baseItemSize}
             magnification={magnification}
           />
@@ -57,7 +58,7 @@ export default function Dock({
   );
 }
 
-function DockIcon({ mouseX, icon, label, onClick, baseSize, magnification }) {
+function DockIcon({ mouseX, icon, label, onClick, isActive, baseSize, magnification }) {
   const ref = useRef(null);
 
   // Calculate cursor distance from icon horizontal center
@@ -91,7 +92,7 @@ function DockIcon({ mouseX, icon, label, onClick, baseSize, magnification }) {
         justifyContent: "center",
         borderRadius: "16px",
         border: "1.5px solid var(--ink)",
-        backgroundColor: "var(--paper)",
+        backgroundColor: isActive ? "var(--yellow-soft)" : "var(--paper)",
         cursor: "pointer",
         position: "relative",
         boxShadow: "2px 2px 0px var(--ink)",

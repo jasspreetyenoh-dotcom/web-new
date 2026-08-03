@@ -39,11 +39,11 @@ function CounterNumber({ value, startTrigger }) {
 
 export default function Results() {
   const metrics = [
-    { id: 1, val: 120, label: "Projects Completed", suffix: "+" },
-    { id: 2, val: 80, label: "Brands Worked With", suffix: "+" },
-    { id: 3, val: 500, label: "Videos Produced", suffix: "+" },
-    { id: 4, val: 250, label: "Campaigns Managed", suffix: "+" },
-    { id: 5, val: 60, label: "Websites Built", suffix: "+" },
+    { id: 1, val: 30, label: "Projects Completed", suffix: "+" },
+    { id: 2, val: 20, label: "Brands Worked With", suffix: "+" },
+    { id: 3, val: 600, label: "Videos Produced", suffix: "+" },
+    { id: 4, val: 50, label: "Campaigns Managed", suffix: "+" },
+    { id: 5, val: 15, label: "Websites Built", suffix: "+" },
   ];
 
   const sectionRef = useRef(null);

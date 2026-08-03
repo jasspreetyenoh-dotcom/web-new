@@ -1,5 +1,5 @@
 "use client";
-import { VscPlayCircle, VscLocation, VscSearch } from "react-icons/vsc";
+import { VscPlayCircle, VscLocation, VscSearch, VscLock, VscDeviceCameraVideo, VscLibrary } from "react-icons/vsc";
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -98,7 +98,7 @@ const WebSlideshow = () => {
             )}
             {/* Address Bar */}
             <div style={{ flex: 1, background: "#0F172A", borderRadius: "8px", padding: "4px 10px", fontSize: isMobile ? "11px" : "13px", color: "#94A3B8", fontFamily: "monospace", display: "flex", alignItems: "center", gap: "6px", border: "1px solid rgba(255,255,255,0.08)", overflow: "hidden", whiteSpace: "nowrap" }}>
-              <span style={{ color: "#22C55E" }}>🔒</span> https://{current.url}
+              <span style={{ color: "#22C55E", display: "inline-flex", alignItems: "center" }}><VscLock size={12} /></span> https://{current.url}
             </div>
             <div style={{ fontSize: isMobile ? "10px" : "12px", color: "var(--yellow)", fontWeight: 800, fontFamily: "var(--font-headings)", padding: "2px 8px", background: "rgba(246,192,0,0.15)", borderRadius: "6px" }}>
               {currentIndex + 1} / {webSlides.length}
@@ -151,17 +151,20 @@ const WebSlideshow = () => {
         </div>
       </motion.div>
 
-      {/* Button below in Y direction to redirect to the active case study */}
-      <Link
-        href={`/portfolio/${current.slug}`}
-        className="btn-sm"
-        style={{
-          padding: "10px 24px",
-          fontSize: "13px"
-        }}
-      >
-        View {current.title.split(" ")[0]} Web Case Study →
-      </Link>
+      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", alignItems: "center", justifyContent: "center", marginTop: "8px" }}>
+        <Link
+          href={`/portfolio/${current.slug}`}
+          className="btn-sm"
+        >
+          View {current.title.split(" ")[0]} Case Study →
+        </Link>
+        <Link
+          href="/showcase"
+          className="btn-sm btn-ghost"
+        >
+          View All Websites →
+        </Link>
+      </div>
     </div>
   );
 };
@@ -439,7 +442,7 @@ const VideoProductionShowcase = () => {
       id: "yug-chintak",
       label: "Yug Chintak",
       tag: "Series",
-      icon: "📺",
+      icon: <VscDeviceCameraVideo />,
       radius: "18px 255px 15px 225px / 225px 15px 255px 18px",
       rotation: "0.8deg"
     },
@@ -447,7 +450,7 @@ const VideoProductionShowcase = () => {
       id: "books-route",
       label: "Books Route",
       tag: "Documentaries",
-      icon: "📚",
+      icon: <VscLibrary />,
       radius: "225px 15px 255px 15px / 15px 225px 15px 255px",
       rotation: "-0.8deg"
     }

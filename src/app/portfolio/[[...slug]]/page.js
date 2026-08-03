@@ -9,6 +9,7 @@ import PresentationMode from "@/components/PresentationMode";
 import BlurText from "@/components/BlurText";
 import { VscClose, VscArrowLeft, VscArrowRight, VscHeart, VscComment, VscRocket, VscFlame, VscEye, VscBookmark, VscTools } from "react-icons/vsc";
 import IntroLoader from "@/components/IntroLoader";
+import fullLogo from "../../full logo.png";
 
 const ACCURATE_COLORS = {
   "punjab-immigration": "#F6C000",       // Vibrant Gold Yellow (Punjab Immigration)
@@ -177,9 +178,37 @@ export default function PortfolioSPA({ params: paramsPromise }) {
           minHeight: "100vh",
           background: "var(--paper)",
           overflowX: "hidden",
-          position: "relative"
+          position: "relative",
+          paddingBottom: "120px"
         }}
       >
+        <style>{`
+          @media (max-width: 900px) {
+            .cs-viral-spotlight-container {
+              padding: 40px 24px !important;
+            }
+            .cs-viral-grid {
+              grid-template-columns: 1fr !important;
+              gap: 40px !important;
+            }
+            .cs-viral-player, .cs-viral-backdrop {
+              max-width: 260px !important;
+              margin: 0 auto !important;
+            }
+            .cs-viral-spotlight-header {
+              justify-content: center !important;
+            }
+            .cs-viral-grid h4, .cs-viral-grid p {
+              text-align: center !important;
+              margin-left: auto !important;
+              margin-right: auto !important;
+            }
+            .cs-viral-metrics-container {
+              grid-template-columns: 1fr 1fr !important;
+              gap: 12px !important;
+            }
+          }
+        `}</style>
         {/* ── TOP NAV ── */}
         <AnimatePresence>
           {!activeProject && (
@@ -196,11 +225,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
             }}
           >
             <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-              <svg viewBox="0 0 100 100" fill="none" style={{ width: "30px", height: "30px" }}>
-                <path d="M20 22 C24 30, 40 55, 46 66 C50 73, 51 80, 50 86" stroke="#1D1D1D" strokeWidth="11" strokeLinecap="round" />
-                <path d="M46 66 C58 50, 68 34, 76 20 M70 18 L78 19 L76 30" stroke="#F6C000" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "20px", color: "var(--ink)" }}>yenoh</span>
+              <img src={fullLogo.src} alt="YENOH Logo" style={{ height: "34px", width: "auto" }} />
             </Link>
             <Link href="/" style={{
               fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "13px",
@@ -323,12 +348,13 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                     onClick={() => openProject(project)}
                     className="shelf-cover"
                     style={{
-                      background: ACCURATE_COLORS[project.id] || project.color || "#F6C000",
-                      "--proj-text-color": project.id === "punjab-immigration" ? "#1D1D1D" : "#FFFFFF",
-                      "--proj-subtext-color": project.id === "punjab-immigration" ? "rgba(29, 29, 29, 0.82)" : "rgba(255, 255, 255, 0.88)",
-                      "--proj-chip-bg": project.id === "punjab-immigration" ? "rgba(0, 0, 0, 0.06)" : "rgba(255, 255, 255, 0.16)",
-                      "--proj-chip-color": project.id === "punjab-immigration" ? "#1D1D1D" : "#FFFFFF",
-                      "--proj-chip-border": project.id === "punjab-immigration" ? "rgba(0, 0, 0, 0.25)" : "rgba(255, 255, 255, 0.35)"
+                      background: "#FFFFFF",
+                      "--proj-text-color": "var(--ink)",
+                      "--proj-subtext-color": "var(--ink-70)",
+                      "--proj-accent": ACCURATE_COLORS[project.id] || project.color || "#F6C000",
+                      "--proj-chip-bg": ACCURATE_COLORS[project.id] || project.color || "#F6C000",
+                      "--proj-chip-color": "#FFFFFF",
+                      "--proj-chip-border": "transparent"
                     }}
                   >
                     <div className="shelf-overlay">
@@ -613,7 +639,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                         {/* Video Reel Phone Player Stage */}
                         <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
                           {/* Yellow Offset Backdrop Frame */}
-                          <div style={{
+                          <div className="cs-viral-backdrop" style={{
                             position: "absolute",
                             inset: 0,
                             width: "100%",
@@ -739,7 +765,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                         <div style={{ position: "relative" }}>
                           
                           {/* Header Badge + Arrow */}
-                          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
+                          <div className="cs-viral-spotlight-header" style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
                             <span style={{
                               background: "var(--yellow)",
                               color: "var(--ink)",

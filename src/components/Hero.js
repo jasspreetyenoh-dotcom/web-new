@@ -5,6 +5,7 @@ import Link from "next/link";
 import BlurText from "./BlurText";
 import HighlightText from "./HighlightText";
 import ScrollCrayonLine from "./ScrollCrayonLine";
+import fullLogo from "@/app/full logo.png";
 
 export default function Hero({ startTrigger }) {
   const containerVariants = {
@@ -38,11 +39,7 @@ export default function Hero({ startTrigger }) {
         }}
       >
         <a href="#" className="logo">
-          <svg viewBox="0 0 100 100" fill="none" style={{ width: "36px", height: "36px" }}>
-            <path d="M20 22 C24 30, 40 55, 46 66 C50 73, 51 80, 50 86" stroke="#1D1D1D" strokeWidth="11" strokeLinecap="round" />
-            <path d="M46 66 C58 50, 68 34, 76 20 M70 18 L78 19 L76 30" stroke="#F6C000" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-          <span style={{ fontSize: "24px", fontWeight: 900, fontFamily: "var(--font-headings)", color: "var(--ink)", marginLeft: "12px" }}>yenoh</span>
+          <img src={fullLogo.src} alt="YENOH Logo" style={{ height: "40px", width: "auto" }} />
         </a>
       </div>
 
@@ -83,9 +80,9 @@ export default function Hero({ startTrigger }) {
         >
           {/* Subtitle */}
           <motion.span className="hero-subtitle" variants={itemVariants} style={{ marginTop: "24px" }}>
-            <svg viewBox="0 0 40 20">
-              <path d="M2 15 C 12 3, 28 3, 36 12" stroke="#1D1D1D" strokeWidth="3" strokeLinecap="round" />
-              <path d="M30 8 L37 12 L31 17" stroke="#1D1D1D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            <svg viewBox="0 0 46 26" width="46" height="26" fill="none" style={{ overflow: "visible" }}>
+              <path d="M2 18 C 12 4, 30 4, 40 14" stroke="#1D1D1D" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+              <path d="M33 9 L41 14 L35 21" stroke="#1D1D1D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
             </svg>
             Creative Agency
           </motion.span>
@@ -173,18 +170,9 @@ export default function Hero({ startTrigger }) {
             initial={{ opacity: 0, y: 12 }}
             animate={startTrigger ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
             transition={{ duration: 0.8, delay: 1.0 }}
-            style={{
-              fontFamily: "var(--font-headings)",
-              fontSize: "clamp(26px, 4vw, 44px)",
-              fontWeight: 900,
-              letterSpacing: "8px",
-              color: "var(--ink)",
-              textTransform: "uppercase",
-              marginTop: "12px",
-              textAlign: "center"
-            }}
+            style={{ marginTop: "16px", textAlign: "center" }}
           >
-            YENOH
+            <img src={fullLogo.src} alt="YENOH" style={{ height: "clamp(32px, 4vw, 52px)", width: "auto" }} />
           </motion.div>
         </div>
       </div>

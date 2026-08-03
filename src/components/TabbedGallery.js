@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { VscClose, VscChevronLeft, VscChevronRight, VscSearch } from "react-icons/vsc";
+import { VscClose, VscChevronLeft, VscChevronRight, VscSearch, VscLock } from "react-icons/vsc";
 
 // Clean Custom YouTube Play Card (No noisy YouTube overlays before play, matching other reels)
 const YouTubePlayCard = ({ item, idx }) => {
@@ -317,7 +317,7 @@ export default function TabbedGallery({ gallery = [] }) {
         margin: "40px auto 0",
         boxShadow: "0 20px 40px rgba(0,0,0,0.4)"
       }}>
-        <div style={{ fontSize: "40px", marginBottom: "16px" }}>🔒</div>
+        <div style={{ fontSize: "40px", marginBottom: "16px", color: "var(--ink-45)" }}><VscLock /></div>
         <h4 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "28px", color: "var(--yellow)", textTransform: "uppercase", marginBottom: "12px" }}>
           Confidential Political PR Portfolio
         </h4>
@@ -628,7 +628,6 @@ export default function TabbedGallery({ gallery = [] }) {
                       position: "relative",
                       width: "100%",
                       minWidth: 0,
-                      aspectRatio: item.aspectRatio || "9/16",
                       borderRadius: "16px",
                       overflow: "hidden",
                       background: "#000000",
@@ -641,7 +640,7 @@ export default function TabbedGallery({ gallery = [] }) {
                       src={`${item.src}#t=0.1`} 
                       preload="metadata" 
                       playsInline 
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
+                      style={{ width: "100%", height: "auto", display: "block" }} 
                     />
                     {/* Subtle Text at Bottom: Click to play */}
                     <div style={{
@@ -750,7 +749,6 @@ export default function TabbedGallery({ gallery = [] }) {
                     position: "relative",
                     width: "100%",
                     minWidth: 0,
-                    aspectRatio: "9/16",
                     borderRadius: "16px",
                     border: "2.5px solid var(--ink)",
                     boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
@@ -765,7 +763,7 @@ export default function TabbedGallery({ gallery = [] }) {
                   <img 
                     src={item.src} 
                     alt={item.caption || "Instagram Grid Screenshot"} 
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
+                    style={{ width: "100%", height: "auto", display: "block" }} 
                   />
 
                   {/* Glassmorphic Bottom Pill Overlay */}
@@ -876,7 +874,6 @@ export default function TabbedGallery({ gallery = [] }) {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   style={{
                     position: "relative",
-                    aspectRatio: "4/5",
                     borderRadius: "16px",
                     overflow: "hidden",
                     background: "#FFFFFF",
@@ -888,7 +885,7 @@ export default function TabbedGallery({ gallery = [] }) {
                   <img 
                     src={item.src} 
                     alt={item.caption || "Brand Graphic"} 
-                    style={{ width: "100%", height: "100%", objectFit: "contain", backgroundColor: "#FFFFFF" }} 
+                    style={{ width: "100%", height: "auto", display: "block", backgroundColor: "#FFFFFF" }} 
                   />
                 </motion.div>
               ))}
