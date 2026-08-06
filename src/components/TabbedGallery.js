@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { VscClose, VscChevronLeft, VscChevronRight, VscSearch, VscLock } from "react-icons/vsc";
+import { VscClose, VscChevronLeft, VscChevronRight, VscSearch, VscLock, VscPlay } from "react-icons/vsc";
 
 // Clean Custom YouTube Play Card (No noisy YouTube overlays before play, matching other reels)
 const YouTubePlayCard = ({ item, idx }) => {
@@ -83,7 +83,7 @@ const YouTubePlayCard = ({ item, idx }) => {
             gap: "6px",
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
           }}>
-            <span style={{ color: "var(--yellow)", fontSize: "9px" }}>▶</span> Click to play
+            <VscPlay size={10} style={{ color: "var(--yellow)" }} /> Click to play
           </div>
         </div>
       )}
@@ -229,9 +229,28 @@ const MobileWebTile = ({ item, openLightbox, index }) => {
 export default function TabbedGallery({ gallery = [] }) {
   const [activeTab, setActiveTab] = useState("All");
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeReelIndex, setActiveReelIndex] = useState(0);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const reelsRef = useRef(null);
   const graphicsRef = useRef(null);
+
+  const handleReelScroll = (e) => {
+    const container = e.target;
+    const scrollPosition = container.scrollLeft;
+    const itemWidth = (container.firstElementChild?.offsetWidth || 260) + 16;
+    const index = Math.round(scrollPosition / itemWidth);
+    if (index !== activeReelIndex) {
+      setActiveReelIndex(Math.min(Math.max(index, 0), 12));
+    }
+  };
 
   const scrollContainer = (ref, direction) => {
     if (ref && ref.current) {
@@ -330,6 +349,82 @@ export default function TabbedGallery({ gallery = [] }) {
 
   return (
     <div style={{ marginTop: "40px" }}>
+      <style>{`
+        .horizontal-reels-slider {
+          display: flex !important;
+          flex-direction: row !important;
+          overflow-x: auto !important;
+          scroll-snap-type: x mandatory !important;
+          -webkit-overflow-scrolling: touch !important;
+          scrollbar-width: none !important;
+          -ms-overflow-style: none !important;
+          width: 100% !important;
+          padding-top: 16px !important;
+          padding-bottom: 16px !important;
+          padding-left: 20px !important;
+          padding-right: 20px !important;
+          margin-top: -12px !important;
+          gap: 16px !important;
+        }
+        .horizontal-reels-slider::-webkit-scrollbar {
+          display: none !important;
+        }
+
+        @media (max-width: 768px) {
+          .website-grid-wrap,
+          .insta-grid-wrap,
+          .graphics-grid-wrap,
+          .youtube-grid-wrap {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            gap: 24px !important;
+          }
+
+          .mobile-web-tile,
+          .pc-web-tile,
+          .insta-grid-tile,
+          .graphic-card {
+            max-width: 310px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+          }
+
+          .horizontal-reels-slider .reel-card {
+            flex: 0 0 75vw !important;
+            width: 75vw !important;
+            max-width: 240px !important;
+            aspect-ratio: 9/16 !important;
+            margin: 0 !important;
+            scroll-snap-align: center !important;
+            border: 1.5px solid rgba(15,23,42,0.25) !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+            border-radius: 14px !important;
+          }
+
+          .youtube-card-wrap {
+            max-width: 360px !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+          }
+
+          .gallery-section-header-wrap {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 20px !important;
+          }
+
+          .gallery-header-badge {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       {/* Category Tabs */}
       {categories.length > 2 && (
         <div style={{ 
@@ -375,44 +470,35 @@ export default function TabbedGallery({ gallery = [] }) {
         {/* SECTION 1: ALL WEBSITE SCREENSHOTS */}
         {websiteItems.length > 0 && isWebTab && (
           <div>
-            <div className="gallery-section-header" style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
-              <div style={{ alignSelf: "flex-start", padding: "6px 14px", background: "var(--paper)", border: "2px solid var(--ink)", boxShadow: "3px 3.5px 0 var(--ink)", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
+            <div className="gallery-section-header-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px", width: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--yellow)" }} />
-                Web Platform
+                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(20px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1 }}>
+                  {isMobile ? "WEBSITE VIEW" : "Desktop & Mobile Web Showcase"}
+                </h3>
               </div>
-              <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(24px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1, maxWidth: "600px" }}>
-                Desktop &amp; Mobile Web Showcase
-              </h3>
             </div>
 
-            <div className="website-grid-wrap" style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-              gap: "24px",
-              alignItems: "start"
-            }}>
-              {websiteItems.map((item, idx) => {
-                const srcLower = (item.src || "").toLowerCase();
-                const isExplicitMobile = Boolean(
-                  item.isMobile || 
-                  item.aspectRatio === "9/16" || 
-                  srcLower.includes("mobile") || 
-                  (item.caption && item.caption.toLowerCase().includes("mobile"))
-                );
-                const ratio = isExplicitMobile ? "9/16" : (item.aspectRatio || "16/9");
-                const originalIndex = filteredGallery.indexOf(item);
-                return (
+            {/* PC: side-by-side — fixed height row so both cards actually render */}
+            {!isMobile ? (
+              <div style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "24px",
+                alignItems: "stretch",
+                height: "clamp(260px, 34vw, 500px)"
+              }}>
+                {/* Left: Desktop screenshot */}
+                {pcWebItem && (
                   <motion.div
-                    key={idx + item.src}
-                    onClick={() => openLightbox(originalIndex)}
-                    whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
+                    onClick={() => openLightbox(filteredGallery.indexOf(pcWebItem))}
+                    whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className={isExplicitMobile ? "mobile-web-tile" : "pc-web-tile"}
                     style={{
                       position: "relative",
-                      width: "100%",
+                      flex: "1 1 0",
                       minWidth: 0,
-                      aspectRatio: ratio,
+                      height: "100%",
                       borderRadius: "16px",
                       overflow: "hidden",
                       background: "#FFFFFF",
@@ -422,17 +508,9 @@ export default function TabbedGallery({ gallery = [] }) {
                     }}
                   >
                     <img
-                      src={item.src}
-                      alt={item.caption || (isExplicitMobile ? "Mobile View" : "Desktop View")}
-                      style={{
-                        position: "absolute",
-                        inset: 0,
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "top",
-                        display: "block"
-                      }}
+                      src={pcWebItem.src}
+                      alt={pcWebItem.caption || "Desktop View"}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
                     />
                     <div style={{
                       position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)",
@@ -445,55 +523,160 @@ export default function TabbedGallery({ gallery = [] }) {
                       display: "flex", alignItems: "center", gap: "6px",
                       boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
                     }}>
-                      <VscSearch /> {isExplicitMobile ? "Mobile View" : "Desktop View"}
+                      <VscSearch /> Desktop View
                     </div>
                   </motion.div>
-                );
-              })}
-            </div>
+                )}
+
+                {/* Right: Phone mockup — width derived from row height × 9/16 */}
+                {mobileWebItem && (
+                  <motion.div
+                    onClick={() => openLightbox(filteredGallery.indexOf(mobileWebItem))}
+                    whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    style={{
+                      position: "relative",
+                      flex: "0 0 auto",
+                      width: "calc(clamp(260px, 34vw, 500px) * 9 / 16)",
+                      height: "100%",
+                      borderRadius: "16px",
+                      overflow: "hidden",
+                      background: "#FFFFFF",
+                      border: "2.5px solid var(--ink)",
+                      boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={mobileWebItem.src}
+                      alt={mobileWebItem.caption || "Mobile View"}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
+                    />
+                    <div style={{
+                      position: "absolute", bottom: "10px", left: "50%", transform: "translateX(-50%)",
+                      padding: "5px 14px", borderRadius: "100px",
+                      background: "rgba(15,15,15,0.75)", backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(255,255,255,0.2)", color: "#FFF",
+                      fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "11px",
+                      textTransform: "uppercase", letterSpacing: "0.06em",
+                      pointerEvents: "none", whiteSpace: "nowrap",
+                      display: "flex", alignItems: "center", gap: "6px",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
+                    }}>
+                      <VscSearch /> Mobile View
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Fallback: if no pc/mobile split, render all website items */}
+                {!pcWebItem && !mobileWebItem && websiteItems.map((item, idx) => {
+                  const isExplicitMobile = Boolean(item.isMobile || item.aspectRatio === "9/16" || (item.src || "").toLowerCase().includes("mobile") || (item.caption && item.caption.toLowerCase().includes("mobile")));
+                  return (
+                    <motion.div
+                      key={idx + item.src}
+                      onClick={() => openLightbox(filteredGallery.indexOf(item))}
+                      whileHover={{ y: -8, scale: 1.02, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      style={{
+                        position: "relative",
+                        flex: isExplicitMobile ? "0 0 auto" : "1 1 0",
+                        width: isExplicitMobile ? "calc(clamp(260px, 34vw, 500px) * 9 / 16)" : undefined,
+                        height: "100%",
+                        borderRadius: "16px", overflow: "hidden", background: "#FFFFFF",
+                        border: "2.5px solid var(--ink)", boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)", cursor: "pointer"
+                      }}
+                    >
+                      <img src={item.src} alt={item.caption || "Web View"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }} />
+                    </motion.div>
+                  );
+                })}
+              </div>
+            ) : (
+              /* Mobile: stacked, each card with its natural aspect ratio */
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px", alignItems: "center", width: "100%" }}>
+                {websiteItems.map((item, idx) => {
+                  const isExplicitMobile = Boolean(item.isMobile || item.aspectRatio === "9/16" || (item.src || "").toLowerCase().includes("mobile") || (item.caption && item.caption.toLowerCase().includes("mobile")));
+                  const ratio = isExplicitMobile ? "9/16" : "16/9";
+                  return (
+                    <motion.div
+                      key={idx + item.src}
+                      onClick={() => openLightbox(filteredGallery.indexOf(item))}
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        maxWidth: isExplicitMobile ? "260px" : "340px",
+                        aspectRatio: ratio,
+                        borderRadius: "14px",
+                        overflow: "hidden",
+                        background: "#FFFFFF",
+                        border: "1.5px solid rgba(15,23,42,0.2)",
+                        boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+                        cursor: "pointer"
+                      }}
+                    >
+                      <img
+                        src={item.src}
+                        alt={item.caption || (isExplicitMobile ? "Mobile View" : "Desktop View")}
+                        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
+                      />
+                      <div style={{
+                        position: "absolute", bottom: "8px", left: "50%", transform: "translateX(-50%)",
+                        padding: "4px 12px", borderRadius: "100px",
+                        background: "rgba(15,15,15,0.75)", backdropFilter: "blur(6px)",
+                        border: "1px solid rgba(255,255,255,0.2)", color: "#FFF",
+                        fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "10px",
+                        textTransform: "uppercase", letterSpacing: "0.06em",
+                        pointerEvents: "none", whiteSpace: "nowrap",
+                        display: "flex", alignItems: "center", gap: "5px"
+                      }}>
+                        <VscSearch /> {isExplicitMobile ? "Mobile View" : "Desktop View"}
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
-        {/* SECTION 1b: YOUTUBE VIDEOS (Clean Custom Thumbnail + Simple Play Button) */}
+        {/* SECTION 1b: YOUTUBE VIDEOS */}
         {allYouTube.length > 0 && isReelsTab && (
           <div>
-            <div className="gallery-section-header" style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
-              <div style={{ alignSelf: "flex-start", padding: "6px 14px", background: "var(--paper)", border: "2px solid var(--ink)", boxShadow: "3px 3.5px 0 var(--ink)", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
+            <div className="gallery-section-header-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px", width: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF0000" }} />
-                YouTube
+                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(20px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1 }}>
+                  {isMobile ? "REELS" : "Video Episodes & Documentaries"}
+                </h3>
               </div>
-              <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(24px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1, maxWidth: "600px" }}>
-                Video Episodes &amp; Documentaries
-              </h3>
             </div>
-            <div style={{
+            <div className="youtube-grid-wrap" style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
               gap: "24px"
             }}>
               {allYouTube.map((item, idx) => (
-                <YouTubePlayCard key={idx + item.src} item={item} idx={idx} />
+                <div key={idx + item.src} className="youtube-card-wrap">
+                  <YouTubePlayCard item={item} idx={idx} />
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* SECTION 2: REELS (9:16 RATIO) - First 4 on "All" tab, All 8 on "Reels" tab */}
+        {/* SECTION 2: REELS (9:16 RATIO) */}
         {allReels.length > 0 && isReelsTab && (
           <div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
-              <div className="gallery-section-header" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ alignSelf: "flex-start", padding: "6px 14px", background: "var(--paper)", border: "2px solid var(--ink)", boxShadow: "3px 3.5px 0 var(--ink)", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#E1306C" }} />
-                  Reels
-                </div>
-                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(24px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1, maxWidth: "600px" }}>
-                  High-Converting Reels &amp; Short Videos
+            <div className="gallery-section-header-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", width: "100%", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#E1306C" }} />
+                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(20px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1 }}>
+                  {isMobile ? "REELS" : "High-Converting Reels & Short Videos"}
                 </h3>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                {/* Scroll buttons for Horizontal Carousel */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+                {/* Scroll buttons down at title level */}
                 <div className="carousel-nav-btns" style={{ display: "flex", gap: "6px" }}>
                   <button 
                     onClick={() => scrollContainer(reelsRef, "left")} 
@@ -507,7 +690,7 @@ export default function TabbedGallery({ gallery = [] }) {
                     onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll left"
                   >
-                    <VscChevronLeft size={22} />
+                    <VscChevronLeft size={20} />
                   </button>
                   <button 
                     onClick={() => scrollContainer(reelsRef, "right")} 
@@ -521,18 +704,15 @@ export default function TabbedGallery({ gallery = [] }) {
                     onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll right"
                   >
-                    <VscChevronRight size={22} />
+                    <VscChevronRight size={20} />
                   </button>
                 </div>
 
-                {activeTab === "All" && allReels.length > 4 && (
+                {activeTab === "All" && allReels.length > 4 && !isMobile && (
                   <button
                     onClick={() => setActiveTab("Reels")}
                     className="btn-sm"
-                    style={{
-                      padding: "6px 16px",
-                      fontSize: "12px"
-                    }}
+                    style={{ padding: "6px 16px", fontSize: "12px" }}
                   >
                     View All ({allReels.length}) Reels →
                   </button>
@@ -577,7 +757,6 @@ export default function TabbedGallery({ gallery = [] }) {
                         playsInline 
                         style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
                       />
-                      {/* Subtle Text at Bottom: Click to play */}
                       <div style={{
                         position: "absolute",
                         bottom: "10px",
@@ -601,7 +780,7 @@ export default function TabbedGallery({ gallery = [] }) {
                         gap: "6px",
                         boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
                       }}>
-                        <span style={{ color: "var(--yellow)", fontSize: "9px" }}>▶</span> Click to play
+                        <VscPlay size={10} style={{ color: "var(--yellow)" }} /> Click to play
                       </div>
                     </motion.div>
                   ))}
@@ -609,109 +788,174 @@ export default function TabbedGallery({ gallery = [] }) {
               </div>
             )}
 
-            {/* Vertical Reels Grid */}
+            {/* Vertical Reels Horizontal Scroll Slider */}
             {verticalReels.length > 0 && (
-              <div ref={reelsRef} className="reels-grid-wrap" style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-                gridTemplateRows: "repeat(2, auto)",
-                gap: "20px"
-              }}>
-                {verticalReels.map((item, idx) => (
-                  <motion.div
-                    key={"v-" + idx + item.src}
-                    onClick={() => openLightbox(filteredGallery.indexOf(item))}
-                    whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className="reel-card"
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      minWidth: 0,
-                      borderRadius: "16px",
-                      overflow: "hidden",
-                      background: "#000000",
-                      border: "2.5px solid var(--ink)",
-                      boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
-                      cursor: "pointer"
-                    }}
-                  >
-                    <video 
-                      src={`${item.src}#t=0.1`} 
-                      preload="metadata" 
-                      playsInline 
-                      style={{ width: "100%", height: "auto", display: "block" }} 
-                    />
-                    {/* Subtle Text at Bottom: Click to play */}
-                    <div style={{
-                      position: "absolute",
-                      bottom: "10px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      padding: "5px 14px",
-                      borderRadius: "100px",
-                      background: "rgba(15, 15, 15, 0.75)",
-                      backdropFilter: "blur(6px)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      color: "#FFFFFF",
-                      fontFamily: "var(--font-headings)",
-                      fontWeight: 700,
-                      fontSize: "11px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.06em",
-                      pointerEvents: "none",
-                      whiteSpace: "nowrap",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
-                    }}>
-                      <span style={{ color: "var(--yellow)", fontSize: "9px" }}>▶</span> Click to play
-                    </div>
-                  </motion.div>
-                ))}
-
-              {/* ── "AND MORE" TEASER TILE (Reels) ── */}
-              <Link href="/contact" style={{ textDecoration: "none", width: "100%", minWidth: 0, display: "block" }}>
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              <div>
+                <div 
+                  ref={reelsRef} 
+                  onScroll={handleReelScroll}
+                  className="horizontal-reels-slider" 
                   style={{
-                    position: "relative",
-                    aspectRatio: "9/16",
-                    borderRadius: "20px",
-                    overflow: "hidden",
-                    background: "linear-gradient(145deg, #F9F6ED 0%, #EFEAD9 100%)",
-                    border: "2.5px solid var(--ink)",
-                    boxShadow: "5px 7px 0 var(--ink)",
-                    cursor: "pointer",
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "28px",
-                    padding: "32px 20px",
-                    textAlign: "center"
+                    overflowX: "auto",
+                    scrollSnapType: "x mandatory",
+                    gap: "16px",
+                    paddingBottom: "12px",
+                    WebkitOverflowScrolling: "touch",
+                    scrollbarWidth: "none"
                   }}
                 >
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "42px", height: "42px" }}>
-                      <rect x="2" y="2" width="20" height="20" rx="4" />
-                      <path d="M7 2v20 M17 2v20 M2 12h20 M2 7h5 M2 17h5 M17 17h5 M17 7h5" />
-                    </svg>
-                    <div style={{
-                      fontFamily: "var(--font-headings)",
-                      fontWeight: 900,
-                      fontSize: "30px",
-                      color: "var(--ink)",
-                      lineHeight: 1,
-                      textTransform: "uppercase"
-                    }}>
-                      +more
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
+                  {verticalReels.map((item, idx) => (
+                    <motion.div
+                      key={"v-" + idx + item.src}
+                      onClick={() => openLightbox(filteredGallery.indexOf(item))}
+                      whileHover={!isMobile ? { y: -8, scale: 1.03, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" } : {}}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      className="reel-card"
+                      style={{
+                        flex: isMobile ? "0 0 72vw" : "0 0 220px",
+                        width: isMobile ? "72vw" : "220px",
+                        maxWidth: isMobile ? "230px" : "none",
+                        minWidth: isMobile ? "0" : "220px",
+                        scrollSnapAlign: "center",
+                        position: "relative",
+                        aspectRatio: "9/16",
+                        borderRadius: "14px",
+                        overflow: "hidden",
+                        background: "#000000",
+                        border: isMobile ? "1px solid rgba(15,23,42,0.18)" : "2px solid var(--ink)",
+                        boxShadow: isMobile ? "0 4px 12px rgba(0,0,0,0.08)" : "0 8px 20px rgba(0,0,0,0.1), 2px 3px 0 var(--ink)",
+                        cursor: "pointer"
+                      }}
+                    >
+                      <video 
+                        src={`${item.src}#t=0.1`} 
+                        preload="metadata" 
+                        playsInline 
+                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
+                      />
+                      <div style={{
+                        position: "absolute",
+                        bottom: "10px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        padding: "5px 14px",
+                        borderRadius: "100px",
+                        background: "rgba(15, 15, 15, 0.75)",
+                        backdropFilter: "blur(6px)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                        color: "#FFFFFF",
+                        fontFamily: "var(--font-headings)",
+                        fontWeight: 700,
+                        fontSize: "11px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.06em",
+                        pointerEvents: "none",
+                        whiteSpace: "nowrap",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
+                      }}>
+                        <VscPlay size={10} style={{ color: "var(--yellow)" }} /> Click to play
+                      </div>
+                    </motion.div>
+                  ))}
+
+                  {/* ── "AND MORE" TEASER TILE (Reels) ── */}
+                  <Link href="/contact" style={{ textDecoration: "none", flex: "0 0 180px", minWidth: "180px", scrollSnapAlign: "start" }}>
+                    <motion.div
+                      whileHover={{ y: -8, scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      style={{
+                        position: "relative",
+                        height: "100%",
+                        aspectRatio: "9/16",
+                        borderRadius: "16px",
+                        overflow: "hidden",
+                        background: "linear-gradient(145deg, #F9F6ED 0%, #EFEAD9 100%)",
+                        border: "2.5px solid var(--ink)",
+                        boxShadow: "5px 7px 0 var(--ink)",
+                        cursor: "pointer",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "20px",
+                        padding: "20px 16px",
+                        textAlign: "center"
+                      }}
+                    >
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "36px", height: "36px" }}>
+                          <rect x="2" y="2" width="20" height="20" rx="4" />
+                          <path d="M7 2v20 M17 2v20 M2 12h20 M2 7h5 M2 17h5 M17 17h5 M17 7h5" />
+                        </svg>
+                        <div style={{
+                          fontFamily: "var(--font-headings)",
+                          fontWeight: 900,
+                          fontSize: "24px",
+                          color: "var(--ink)",
+                          lineHeight: 1,
+                          textTransform: "uppercase"
+                        }}>
+                          +more
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
+                </div>
+
+                {/* Dots Navigation */}
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "6px",
+                  marginTop: "16px"
+                }}>
+                  {verticalReels.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        if (reelsRef.current) {
+                          const itemWidth = (reelsRef.current.firstElementChild?.offsetWidth || 260) + 16;
+                          reelsRef.current.scrollTo({ left: i * itemWidth, behavior: "smooth" });
+                          setActiveReelIndex(i);
+                        }
+                      }}
+                      style={{
+                        width: activeReelIndex === i ? "24px" : "8px",
+                        height: "8px",
+                        borderRadius: "100px",
+                        background: activeReelIndex === i ? "var(--yellow)" : "rgba(15, 23, 42, 0.2)",
+                        border: activeReelIndex === i ? "1.5px solid var(--ink)" : "none",
+                        cursor: "pointer",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                        padding: 0
+                      }}
+                      aria-label={`Go to reel ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {/* Subtle Scroll Text Right Below Dots */}
+                <div style={{
+                  textAlign: "center",
+                  fontSize: "11px",
+                  fontFamily: "var(--font-headings)",
+                  fontWeight: 800,
+                  color: "var(--ink-45)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  marginTop: "8px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px"
+                }}>
+                  Swipe horizontally to explore reels →
+                </div>
               </div>
             )}
           </div>
@@ -720,14 +964,11 @@ export default function TabbedGallery({ gallery = [] }) {
         {/* SECTION: INSTAGRAM GRID FEED SHOWCASE */}
         {instaGridItems.length > 0 && isGraphicsTab && (
           <div style={{ marginBottom: "50px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
-              <div className="gallery-section-header" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ alignSelf: "flex-start", padding: "6px 14px", background: "var(--paper)", border: "2px solid var(--ink)", boxShadow: "3px 3.5px 0 var(--ink)", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#dc2743" }} />
-                  Feed Strategy
-                </div>
-                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(24px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1, maxWidth: "600px" }}>
-                  Curated Instagram Grid Feed
+            <div className="gallery-section-header-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px", width: "100%" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#dc2743" }} />
+                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(20px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1 }}>
+                  {isMobile ? "INSTA GRID" : "Curated Instagram Grid Feed"}
                 </h3>
               </div>
             </div>
@@ -745,6 +986,7 @@ export default function TabbedGallery({ gallery = [] }) {
                   onClick={() => openLightbox(filteredGallery.indexOf(item))}
                   whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="insta-grid-tile"
                   style={{
                     position: "relative",
                     width: "100%",
@@ -798,22 +1040,19 @@ export default function TabbedGallery({ gallery = [] }) {
           </div>
         )}
 
-        {/* SECTION 3: SOCIAL POSTS & GRAPHICS (4:5 RATIO) - First 4 on "All" tab, All 8 on "Graphics"/"Social" tab */}
+        {/* SECTION 3: SOCIAL POSTS & GRAPHICS */}
         {allGraphics.length > 0 && isGraphicsTab && (
           <div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
-              <div className="gallery-section-header" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                <div style={{ alignSelf: "flex-start", padding: "6px 14px", background: "var(--paper)", border: "2px solid var(--ink)", boxShadow: "3px 3.5px 0 var(--ink)", borderRadius: "100px", fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)", display: "flex", alignItems: "center", gap: "8px" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--yellow)", border: "1px solid var(--ink)" }} />
-                  Brand Assets
-                </div>
-                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(24px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1, maxWidth: "600px" }}>
-                  Social Posts &amp; Campaign Creatives
+            <div className="gallery-section-header-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", width: "100%", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--yellow)", border: "1px solid var(--ink)" }} />
+                <h3 style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "clamp(20px, 4vw, 32px)", textTransform: "uppercase", margin: 0, color: "var(--ink)", lineHeight: 1.1 }}>
+                  {isMobile ? "POSTS" : "Social Posts & Campaign Creatives"}
                 </h3>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                {/* Scroll buttons for Horizontal Carousel */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
+                {/* Scroll buttons down at title level */}
                 <div className="carousel-nav-btns" style={{ display: "flex", gap: "6px" }}>
                   <button 
                     onClick={() => scrollContainer(graphicsRef, "left")} 
@@ -827,7 +1066,7 @@ export default function TabbedGallery({ gallery = [] }) {
                     onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll left"
                   >
-                    <VscChevronLeft size={22} />
+                    <VscChevronLeft size={20} />
                   </button>
                   <button 
                     onClick={() => scrollContainer(graphicsRef, "right")} 
@@ -841,20 +1080,17 @@ export default function TabbedGallery({ gallery = [] }) {
                     onMouseLeave={(e) => e.currentTarget.style.background = "rgba(15, 23, 42, 0.05)"}
                     aria-label="Scroll right"
                   >
-                    <VscChevronRight size={22} />
+                    <VscChevronRight size={20} />
                   </button>
                 </div>
 
-                {activeTab === "All" && allGraphics.length > 4 && (
+                {activeTab === "All" && allGraphics.length > 4 && !isMobile && (
                   <button
                     onClick={() => setActiveTab("Graphics")}
                     className="btn-sm"
-                    style={{
-                      padding: "6px 16px",
-                      fontSize: "12px"
-                    }}
+                    style={{ padding: "6px 16px", fontSize: "12px" }}
                   >
-                    View All ({allGraphics.length}) Graphics →
+                    View All ({allGraphics.length}) Posts →
                   </button>
                 )}
               </div>
@@ -872,49 +1108,79 @@ export default function TabbedGallery({ gallery = [] }) {
                   onClick={() => openLightbox(filteredGallery.indexOf(item))}
                   whileHover={{ y: -12, scale: 1.04, boxShadow: "0 20px 36px rgba(0,0,0,0.22), 4px 6px 0 var(--ink)" }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="graphic-card"
                   style={{
                     position: "relative",
+                    width: "100%",
+                    minWidth: 0,
                     borderRadius: "16px",
-                    overflow: "hidden",
-                    background: "#FFFFFF",
                     border: "2.5px solid var(--ink)",
                     boxShadow: "0 10px 24px rgba(0,0,0,0.14), 2px 3px 0 var(--ink)",
-                    cursor: "pointer"
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    background: "#000000",
+                    display: "flex",
+                    flexDirection: "column"
                   }}
                 >
                   <img 
                     src={item.src} 
                     alt={item.caption || "Brand Graphic"} 
-                    style={{ width: "100%", height: "auto", display: "block", backgroundColor: "#FFFFFF" }} 
+                    style={{ width: "100%", height: "auto", display: "block" }} 
                   />
+                  <div style={{
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    padding: "5px 12px",
+                    borderRadius: "100px",
+                    background: "rgba(15, 15, 15, 0.75)",
+                    backdropFilter: "blur(6px)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    color: "#FFFFFF",
+                    fontFamily: "var(--font-headings)",
+                    fontWeight: 700,
+                    fontSize: "11px",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    pointerEvents: "none",
+                    whiteSpace: "nowrap",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
+                  }}>
+                    <VscSearch /> Click to view
+                  </div>
                 </motion.div>
               ))}
 
               {/* ── "AND MORE" TEASER TILE (Graphics) ── */}
-              <Link href="/contact" style={{ textDecoration: "none", width: "100%", minWidth: 0, display: "block" }}>
+              <Link href="/contact" className="graphic-card" style={{ textDecoration: "none", width: "100%", maxWidth: "310px", margin: "0 auto", display: "block" }}>
                 <motion.div
                   whileHover={{ y: -6, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   style={{
                     position: "relative",
                     aspectRatio: "4/5",
-                    borderRadius: "20px",
+                    borderRadius: "16px",
                     overflow: "hidden",
                     background: "linear-gradient(145deg, #F9F6ED 0%, #EFEAD9 100%)",
-                    border: "2.5px solid var(--ink)",
-                    boxShadow: "5px 7px 0 var(--ink)",
+                    border: "2px solid var(--ink)",
+                    boxShadow: "0 8px 20px rgba(0,0,0,0.1), 2px 3px 0 var(--ink)",
                     cursor: "pointer",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    gap: "20px",
-                    padding: "28px 20px",
+                    gap: "16px",
+                    padding: "24px 16px",
                     textAlign: "center"
                   }}
                 >
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "38px", height: "38px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "36px", height: "36px" }}>
                       <path d="M12 19l7-7 3 3-7 7-3-3z" />
                       <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
                       <path d="M2 2l7.586 7.586" />
@@ -923,7 +1189,7 @@ export default function TabbedGallery({ gallery = [] }) {
                     <div style={{
                       fontFamily: "var(--font-headings)",
                       fontWeight: 900,
-                      fontSize: "28px",
+                      fontSize: "24px",
                       color: "var(--ink)",
                       lineHeight: 1,
                       textTransform: "uppercase"
@@ -1050,71 +1316,77 @@ export default function TabbedGallery({ gallery = [] }) {
                 />
               )}
 
+            </motion.div>
+
+            {/* Bottom Caption & Navigation Controls aligned on exact same row */}
+            <div style={{ 
+              marginTop: "20px", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center", 
+              gap: "20px", 
+              zIndex: 100000,
+              maxWidth: "92vw" 
+            }}>
               {/* Left Nav Arrow Button */}
               <motion.button
                 onClick={(e) => { e.stopPropagation(); prevMedia(); }}
-                whileHover={{ scale: 1.15, x: -4 }}
+                whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 style={{
-                  position: "absolute",
-                  left: "16px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  width: "52px",
-                  height: "52px",
+                  width: "48px",
+                  height: "48px",
                   borderRadius: "50%",
                   background: "var(--yellow)",
                   color: "var(--ink)",
                   border: "2.5px solid var(--ink)",
-                  boxShadow: "3px 4px 0 var(--ink)",
+                  boxShadow: "2.5px 3.5px 0 var(--ink)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  zIndex: 100000,
+                  flexShrink: 0
                 }}
+                aria-label="Previous Reel"
               >
-                <VscChevronLeft size={28} />
+                <VscChevronLeft size={26} />
               </motion.button>
+
+              {/* Center Caption & Counter */}
+              <div style={{ textAlign: "center", color: "#FFFFFF" }}>
+                <div style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "16px", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--yellow)" }}>
+                  {activeMedia.caption || activeMedia.category}
+                </div>
+                <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", marginTop: "4px", fontFamily: "var(--font-headings)", fontWeight: 700 }}>
+                  {lightboxIndex + 1} / {filteredGallery.length}
+                </div>
+              </div>
 
               {/* Right Nav Arrow Button */}
               <motion.button
                 onClick={(e) => { e.stopPropagation(); nextMedia(); }}
-                whileHover={{ scale: 1.15, x: 4 }}
+                whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 style={{
-                  position: "absolute",
-                  right: "16px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  width: "52px",
-                  height: "52px",
+                  width: "48px",
+                  height: "48px",
                   borderRadius: "50%",
                   background: "var(--yellow)",
                   color: "var(--ink)",
                   border: "2.5px solid var(--ink)",
-                  boxShadow: "3px 4px 0 var(--ink)",
+                  boxShadow: "2.5px 3.5px 0 var(--ink)",
                   cursor: "pointer",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  zIndex: 100000,
+                  flexShrink: 0
                 }}
+                aria-label="Next Reel"
               >
-                <VscChevronRight size={28} />
+                <VscChevronRight size={26} />
               </motion.button>
-            </motion.div>
-
-            {/* Bottom Caption & Counter */}
-            <div style={{ marginTop: "20px", textAlign: "center", color: "#FFFFFF", zIndex: 100000 }}>
-              <div style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "16px", textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--yellow)" }}>
-                {activeMedia.caption || activeMedia.category}
-              </div>
-              <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)", marginTop: "4px", fontFamily: "var(--font-headings)", fontWeight: 700 }}>
-                {lightboxIndex + 1} / {filteredGallery.length}
-              </div>
             </div>
           </motion.div>
         )}

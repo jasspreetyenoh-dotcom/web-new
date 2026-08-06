@@ -9,13 +9,99 @@ import dynamic from "next/dynamic";
 const Lanyard = dynamic(() => import("@/components/Lanyard"), { ssr: false });
 import ScrollCrayonLine from "@/components/ScrollCrayonLine";
 import IntroLoader from "@/components/IntroLoader";
+const WaterGravityPills = dynamic(() => import("@/components/WaterGravityPills"), { ssr: false });
 
 
 const TEAM_MEMBERS = [
-  { name: "Jaspreet Singh", title: "Founder & Director", desc: "Leading the creative vision and business strategy to build brands that matter." },
-  { name: "Jaspreet Singh", title: "Lead Designer", desc: "Crafting beautiful, functional digital experiences with a keen eye for modern aesthetics." },
-  { name: "Jaspreet Singh", title: "Marketing Head", desc: "Driving growth through data-driven campaigns and innovative content strategies." }
+  { name: "Jaspreet Singh", title: "CEO", desc: "Leading the creative vision, overall business strategy, and brand growth." },
+  { name: "Jaspreet Singh", title: "COO", desc: "Orchestrating operations, execution, and client success with precision." }
 ];
+
+function MobileTeamIDCard({ person, i }) {
+  const isCEO = person.title.toUpperCase().includes("CEO");
+  return (
+    <motion.div 
+      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.8 + i * 0.15, type: "spring", stiffness: 80 }}
+      style={{ 
+        width: "100%", 
+        background: isCEO ? "var(--ink)" : "var(--paper)", 
+        color: isCEO ? "var(--paper)" : "var(--ink)", 
+        borderRadius: "20px", 
+        border: `2px solid ${isCEO ? "var(--yellow)" : "var(--ink)"}`, 
+        boxShadow: "0 12px 30px rgba(0,0,0,0.12)", 
+        display: "flex", 
+        flexDirection: "column", 
+        alignItems: "center", 
+        padding: "16px 12px", 
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
+      <div style={{ width: "36px", height: "6px", background: isCEO ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)", borderRadius: "6px", marginBottom: "12px", flexShrink: 0 }} />
+      <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", flexShrink: 0 }}>
+        <span style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "13px", color: isCEO ? "var(--yellow)" : "var(--ink)", letterSpacing: "0.05em" }}>YENOH</span>
+        <span style={{ fontSize: "9px", fontWeight: 800, color: isCEO ? "rgba(255,255,255,0.6)" : "var(--ink-60)", textTransform: "uppercase", letterSpacing: "0.08em" }}>ID: 00{i+1}</span>
+      </div>
+      <div style={{ 
+        width: "100%", 
+        height: "110px", 
+        borderRadius: "14px", 
+        marginBottom: "14px", 
+        position: "relative", 
+        overflow: "hidden", 
+        background: isCEO ? "linear-gradient(135deg, var(--yellow) 0%, #FF9900 100%)" : "linear-gradient(135deg, #111111 0%, #2A2A2A 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "12px"
+      }}>
+        <div style={{ position: "absolute", top: "-30%", right: "-30%", width: "120%", height: "120%", background: isCEO ? "#fff" : "var(--yellow)", borderRadius: "50%", opacity: 0.25, filter: "blur(25px)" }} />
+        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ 
+            width: "48px", 
+            height: "48px", 
+            borderRadius: "50%", 
+            background: isCEO ? "var(--ink)" : "var(--yellow)", 
+            color: isCEO ? "var(--yellow)" : "var(--ink)",
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center",
+            fontFamily: "var(--font-headings)",
+            fontWeight: 900,
+            fontSize: "16px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.2)"
+          }}>
+            {person.title}
+          </div>
+        </div>
+      </div>
+      <div style={{ width: "100%", textAlign: "center", display: "flex", flexDirection: "column", gap: "4px", flexShrink: 0 }}>
+        <div style={{ fontWeight: 900, fontSize: "14px", color: isCEO ? "#fff" : "var(--ink)", fontFamily: "var(--font-headings)", lineHeight: 1.1, textTransform: "uppercase" }}>{person.name}</div>
+        <div style={{ 
+          display: "inline-block",
+          alignSelf: "center",
+          marginTop: "2px",
+          padding: "3px 10px",
+          borderRadius: "100px",
+          background: isCEO ? "var(--yellow)" : "var(--ink)",
+          color: isCEO ? "var(--ink)" : "var(--paper)",
+          fontSize: "11px", 
+          fontWeight: 900, 
+          textTransform: "uppercase", 
+          letterSpacing: "0.08em" 
+        }}>
+          {person.title}
+        </div>
+      </div>
+      <div style={{ width: "100%", height: "12px", marginTop: "14px", display: "flex", gap: "2px", opacity: isCEO ? 0.3 : 0.2, flexShrink: 0 }}>
+        {[...Array(18)].map((_, j) => (<div key={j} style={{ flex: (j % 3) + 1, background: isCEO ? "#fff" : "var(--ink)", height: "100%" }} />))}
+      </div>
+    </motion.div>
+  );
+}
 
 function TeamIDCard({ person, i }) {
   return (
@@ -177,7 +263,7 @@ export default function AboutPage() {
             
             @media (max-width: 900px) {
               .responsive-section { padding: 80px 24px; }
-              .hero-section { height: auto; min-height: 85vh; padding: 100px 24px 60px; align-items: flex-start; }
+              .hero-section { height: auto; min-height: auto; padding: 32px 24px 40px !important; align-items: flex-start; }
               .hero-desc { font-size: 20px; }
               .story-grid { grid-template-columns: 1fr; gap: 40px; }
               .story-text { font-size: 18px; }
@@ -279,42 +365,44 @@ export default function AboutPage() {
             </motion.div>
           </div>
 
-          {/* Mobile Only: Extreme Hero & Stacked Deck */}
+          {/* Mobile Only: Hero & Leadership Grid (Same Level) */}
           <div className="mobile-only" style={{ flexDirection: "column", width: "100%", alignItems: "flex-start", textAlign: "left" }}>
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.05)", padding: "6px 12px", borderRadius: "100px", marginBottom: "24px", width: "fit-content", fontFamily: "var(--font-headings)", fontWeight: 700, fontSize: "12px", textTransform: "uppercase" }}>
-              <span style={{ width: "8px", height: "8px", background: "var(--yellow)", borderRadius: "50%" }}></span>
-              Creative Studio
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)", padding: "8px 16px", borderRadius: "100px", marginBottom: "20px", width: "fit-content", fontFamily: "var(--font-headings)", fontWeight: 800, fontSize: "12px", textTransform: "uppercase", color: "var(--ink)" }}>
+              <span style={{ width: "8px", height: "8px", background: "var(--yellow)", borderRadius: "50%", boxShadow: "0 0 8px var(--yellow)" }}></span>
+              Creative Marketing Studio
             </motion.div>
             
             <h1 className="m-hero-title">
-              <motion.span initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 50 }}>We build</motion.span>
-              <motion.span initial={{ x: 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4, type: "spring", stiffness: 50 }} className="outline">Brands</motion.span>
-              <motion.span initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6, type: "spring", stiffness: 50 }} style={{ color: "var(--yellow)" }}>that last.</motion.span>
+              <motion.span initial={{ x: -40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 60 }}>We build</motion.span>
+              <motion.span initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4, type: "spring", stiffness: 60 }} className="outline">Brands</motion.span>
+              <motion.span initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6, type: "spring", stiffness: 60 }} style={{ color: "var(--yellow)" }}>that last.</motion.span>
             </h1>
             
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} style={{ fontSize: "18px", color: "var(--ink-70)", lineHeight: 1.5, margin: "24px 0 40px" }}>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }} style={{ fontSize: "17px", color: "var(--ink-70)", lineHeight: 1.5, margin: "16px 0 28px", fontWeight: 500 }}>
               Yenoh is a creative marketing studio helping businesses grow through strategy, design, and technology.
             </motion.p>
             
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 1, type: "spring" }} style={{ width: "100%" }}>
-              <Link href="/contact" className="btn" style={{ width: "100%", padding: "20px", fontSize: "18px", justifyContent: "center" }}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.8, type: "spring" }} style={{ width: "100%", display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <Link href="/contact" className="btn" style={{ flex: 1, padding: "16px", fontSize: "16px", justifyContent: "center", textTransform: "uppercase" }}>
                 Start a Project
+              </Link>
+              <Link href="/portfolio" className="btn btn-white" style={{ padding: "16px 24px", fontSize: "16px", justifyContent: "center", textTransform: "uppercase" }}>
+                Work
               </Link>
             </motion.div>
             
-            {/* Stacked Deck Carousel */}
-            <div className="m-team-stack">
-               {TEAM_MEMBERS.map((person, i) => (
-                  <motion.div 
-                    key={i} 
-                    style={{ position: "absolute", top: i * 20, width: "100%", maxWidth: "320px", height: "360px", zIndex: TEAM_MEMBERS.length - i }}
-                    initial={{ rotate: 0, y: 100, opacity: 0 }}
-                    animate={{ rotate: (i - 1) * 6, y: 0, opacity: 1, x: (i - 1) * 10 }}
-                    transition={{ type: "spring", stiffness: 60, delay: 1.2 + (i * 0.1) }}
-                  >
-                    <TeamIDCard person={person} i={i} />
-                  </motion.div>
-               ))}
+            {/* Team Cards on Same Level (Mobile 2-Column Grid) */}
+            <div style={{ width: "100%", marginTop: "40px" }}>
+              <div style={{ fontSize: "12px", fontWeight: 900, fontFamily: "var(--font-headings)", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--ink-45)", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <span style={{ width: "16px", height: "2px", background: "var(--yellow)" }}></span>
+                Leadership Team
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", width: "100%" }}>
+                {TEAM_MEMBERS.map((person, i) => (
+                  <MobileTeamIDCard key={i} person={person} i={i} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -336,32 +424,18 @@ export default function AboutPage() {
 
       {/* 1.5 TEAM / LEADERSHIP (PC ONLY) */}
       <section className="responsive-section desktop-only" style={{ position: "relative" }}>
-        {/* Crayon decoration for the section */}
-        <div style={{ position: "absolute", top: "40px", right: "10%", opacity: 0.2, pointerEvents: "none", display: "none" }}>
-          {/* Hidden on mobile for cleaner look */}
-          <ScrollCrayonLine
-            path="M0 25 C 100 45, 200 5, 300 30"
-            viewBox="0 0 300 55"
-            width="300px"
-            height="55px"
-            stroke="var(--yellow)"
-            strokeWidth={4}
-            delay={0.2}
-          />
-        </div>
-
         <h2 className="section-title desktop-only">
           The People Behind The Work
         </h2>
         
-        <div className="desktop-only" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "40px", maxWidth: "1200px", margin: "0 auto" }}>
+        <div className="desktop-only" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "40px", maxWidth: "900px", margin: "0 auto" }}>
           {TEAM_MEMBERS.map((person, i) => (
             <motion.div 
               key={i} 
               initial={{ opacity: 0, y: 40 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
+              transition={{ duration: 0.7, delay: i * 0.15 }}
               style={{ display: "flex", flexDirection: "column", gap: "24px" }}
             >
               <div className="team-lanyard-wrapper">
@@ -375,11 +449,14 @@ export default function AboutPage() {
                 />
               </div>
 
-              {/* Text Info Container */}
-              <div className="team-text-container" style={{ textAlign: "center" }}>
-                <p style={{ fontSize: "20px", color: "var(--ink)", lineHeight: 1.5, margin: 0, fontStyle: "italic", fontWeight: 700, fontFamily: "var(--font-headings)" }}>
-                  "{person.desc}"
-                </p>
+              {/* Text Info Container - Given Names & Titles Only */}
+              <div className="team-text-container" style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                <h3 style={{ fontSize: "28px", fontWeight: 900, fontFamily: "var(--font-headings)", textTransform: "uppercase", margin: 0, color: "var(--ink)" }}>
+                  {person.name}
+                </h3>
+                <span style={{ fontSize: "14px", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--yellow)", background: "var(--ink)", padding: "6px 22px", borderRadius: "100px", display: "inline-block" }}>
+                  {person.title}
+                </span>
               </div>
             </motion.div>
           ))}
@@ -645,72 +722,21 @@ export default function AboutPage() {
           Industries We <HighlightText delay={0.2}>Transform</HighlightText>
         </h2>
         
-        {/* DESKTOP VERSION */}
-        <div className="desktop-only" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
-          {[
-            "Immigration", "Education", "Restaurants & Cafés", "Political Communication",
-            "Software & SaaS", "Media & Content", "Personal Brands", "Local Businesses",
-            "Professional Services", "Retail & Hospitality"
-          ].map((ind, i) => (
-            <motion.div 
-              key={i} 
-              initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-              className="industry-tag"
-            >
-              {ind}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* MOBILE VERSION: Interactive Sticker Wall */}
-        <div className="mobile-only" style={{ position: "relative", width: "100vw", height: "450px", overflow: "hidden", background: "rgba(0,0,0,0.02)", marginLeft: "-24px" }}>
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
-            <div style={{ fontFamily: "var(--font-headings)", fontWeight: 900, fontSize: "40px", color: "rgba(0,0,0,0.05)", textTransform: "uppercase", textAlign: "center", lineHeight: 1 }}>Drag<br/>Them</div>
-          </div>
-          <div style={{position: "relative", width: "100%", height: "100%", pointerEvents: "auto"}}>
-            {[
-              { n: "Immigration", x: 20, y: 30, r: -5, bg: "var(--yellow)", c: "var(--ink)" },
-              { n: "Education", x: 140, y: 70, r: 8, bg: "#2A2A2A", c: "var(--yellow)" },
-              { n: "Restaurants", x: 50, y: 120, r: -12, bg: "#FF4B4B", c: "#fff" },
-              { n: "SaaS", x: 180, y: 160, r: 15, bg: "var(--paper)", c: "var(--ink)" },
-              { n: "Real Estate", x: 10, y: 220, r: -8, bg: "#2A2A2A", c: "var(--yellow)" },
-              { n: "Retail", x: 160, y: 250, r: 5, bg: "var(--yellow)", c: "var(--ink)" },
-              { n: "Media", x: 40, y: 300, r: -10, bg: "#2A2A2A", c: "var(--yellow)" },
-              { n: "Politics", x: 150, y: 340, r: 12, bg: "var(--paper)", c: "var(--ink)" },
-            ].map((ind, i) => (
-              <motion.div 
-                key={i} 
-                drag 
-                dragConstraints={{ left: -50, right: 200, top: -50, bottom: 350 }}
-                dragElastic={0.2}
-                dragMomentum={true}
-                initial={{ x: ind.x, y: ind.y, rotate: ind.r, scale: 0 }}
-                whileInView={{ scale: 1 }}
-                whileTap={{ scale: 1.1, zIndex: 10, rotate: 0 }}
-                viewport={{ once: true }}
-                transition={{ type: "spring", delay: i * 0.1 }}
-                style={{ 
-                  position: "absolute",
-                  padding: "12px 24px", 
-                  background: ind.bg, 
-                  color: ind.c,
-                  border: ind.bg === "var(--paper)" ? "2px solid var(--ink)" : "none",
-                  borderRadius: "100px", 
-                  fontFamily: "var(--font-headings)", 
-                  fontWeight: 900, 
-                  fontSize: "16px", 
-                  textTransform: "uppercase",
-                  boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
-                  cursor: "grab",
-                  whiteSpace: "nowrap",
-                  touchAction: "none"
-                }}
-              >
-                {ind.n}
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        <WaterGravityPills 
+          items={[
+            { text: "Immigration", bg: "var(--yellow)", color: "var(--ink)" },
+            { text: "Education", bg: "#2A2A2A", color: "var(--yellow)" },
+            { text: "Restaurants & Cafés", bg: "#FF4B4B", color: "#ffffff" },
+            { text: "Political Communication", bg: "var(--paper)", color: "var(--ink)", border: "2px solid var(--ink)" },
+            { text: "Software & SaaS", bg: "#2A2A2A", color: "var(--yellow)" },
+            { text: "Media & Content", bg: "var(--yellow)", color: "var(--ink)" },
+            { text: "Personal Brands", bg: "var(--paper)", color: "var(--ink)", border: "2px solid var(--ink)" },
+            { text: "Local Businesses", bg: "#FF4B4B", color: "#ffffff" },
+            { text: "Professional Services", bg: "#2A2A2A", color: "var(--yellow)" },
+            { text: "Retail & Hospitality", bg: "var(--yellow)", color: "var(--ink)" }
+          ]}
+          height={560}
+        />
       </section>
 
       {/* 6. OUR CAPABILITIES */}

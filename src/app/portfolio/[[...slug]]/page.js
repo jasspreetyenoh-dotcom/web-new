@@ -7,7 +7,7 @@ import { ALL_PROJECTS } from "@/data/projects";
 import TabbedGallery from "@/components/TabbedGallery";
 import PresentationMode from "@/components/PresentationMode";
 import BlurText from "@/components/BlurText";
-import { VscClose, VscArrowLeft, VscArrowRight, VscHeart, VscComment, VscRocket, VscFlame, VscEye, VscBookmark, VscTools } from "react-icons/vsc";
+import { VscClose, VscArrowLeft, VscArrowRight, VscArrowDown, VscPlay, VscHeart, VscComment, VscRocket, VscFlame, VscEye, VscBookmark, VscTools } from "react-icons/vsc";
 import IntroLoader from "@/components/IntroLoader";
 import fullLogo from "../../full logo.png";
 
@@ -256,9 +256,9 @@ export default function PortfolioSPA({ params: paramsPromise }) {
               <motion.div 
                 animate={{ y: [0, 10, 0] }} 
                 transition={{ repeat: Infinity, duration: 2 }}
-                style={{ marginTop: "60px", color: "var(--ink-45)" }}
+                style={{ marginTop: "60px", color: "var(--ink-45)", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}
               >
-                ↓ Scroll
+                <VscArrowDown size={18} /> Scroll
               </motion.div>
             </section>
 
@@ -756,7 +756,7 @@ export default function PortfolioSPA({ params: paramsPromise }) {
                               boxShadow: "0 4px 14px rgba(0,0,0,0.4)",
                               zIndex: 6
                             }}>
-                              <span style={{ color: "var(--yellow)", fontSize: "10px" }}>▶</span> Click to View in Full Gallery
+                              <VscPlay size={10} style={{ color: "var(--yellow)" }} /> Click to View in Full Gallery
                             </div>
                           </motion.div>
                         </div>
